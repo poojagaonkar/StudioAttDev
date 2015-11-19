@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
@@ -153,40 +155,35 @@ public class LazyAdapter extends ArrayAdapter<String>
 		return 2;
 	}
 	@Override
-	 public View getView(int position, View convertView, ViewGroup parent)
-	{
-        View vi=convertView;
+	 public View getView(int position, View convertView, ViewGroup parent) {
+        View vi = convertView;
         LazyViewHolder viewHolder;
-        if(convertView==null)
-        {
-        	switch(getItemViewType(position))
-        	{
-        	case 0:
-        		vi = inflater.inflate(com.zeven.attini.R.layout.list_row,null);
-        		
-        		break;
-        	case 1:
-        		vi = inflater.inflate(com.zeven.attini.R.layout.list_row1,null);
-        		break;
-        	}
-        
-            
+        if (convertView == null) {
+            switch (getItemViewType(position)) {
+                case 0:
+                    vi = inflater.inflate(com.zeven.attini.R.layout.list_row, null);
+
+                    break;
+                case 1:
+                    vi = inflater.inflate(com.zeven.attini.R.layout.list_row1, null);
+                    break;
+            }
+
+
         }
         viewHolder = new LazyViewHolder();
-        
-        viewHolder.title = (TextView)vi.findViewById(com.zeven.attini.R.id.title); // title
-        viewHolder.description = (TextView)vi.findViewById(com.zeven.attini.R.id.description); // artist name
-       viewHolder.pubDate = (TextView)vi.findViewById(com.zeven.attini.R.id.txtPubDate);
-       viewHolder.viewDate  =(View)vi.findViewById(R.id.viewDate);
-      
-       
-       
-       			News song = data.get(position);
-       			
-       			
-       		
-       				
-       			myColor = song.getColor();
+
+        viewHolder.title = (TextView) vi.findViewById(com.zeven.attini.R.id.title); // title
+        viewHolder.description = (TextView) vi.findViewById(com.zeven.attini.R.id.description); // artist name
+        viewHolder.pubDate = (TextView) vi.findViewById(com.zeven.attini.R.id.txtPubDate);
+        viewHolder.viewDate = (View) vi.findViewById(R.id.viewDate);
+        viewHolder.thumb_image = (ImageView) vi.findViewById(com.zeven.attini.R.id.list_image); // thumb image
+
+
+        News newsItem = data.get(position);
+
+
+        myColor = newsItem.getColor();
        			/*if(myColor=="#7959BC")
        			{
        				myColor = "#62934D";
@@ -195,117 +192,64 @@ public class LazyAdapter extends ArrayAdapter<String>
        			{
        				myColor="#7959BC";
        			}*/
-       			
-       			       viewHolder.viewDate.setBackgroundColor(Color.parseColor(myColor));
-       			 
-      
-        	   myTitle =song.getTitle();
-           
-               
-               //Set description
-            //  mydescription =Html.fromHtml(song.getBody()).toString();
-        	
-        		   mydescription =  Jsoup.parse(song.getBody()).text();
-            
-          
-               // Set image
-              bitmapUrl = song.getNewsBigImage();
-               
-               //Set date
-             myDate = song.getPublishedDate();
-               		
-            
-               
-       
-      
+
+        viewHolder.viewDate.setBackgroundColor(Color.parseColor(myColor));
+
+
+        myTitle = newsItem.getTitle();
+
+
+        //Set description
+        mydescription = Jsoup.parse(newsItem.getBody()).text();
+
+
+        // Set image
+        bitmapUrl = newsItem.getNewsBigImage();
+
+        //Set date 2015-10-05T14:30:00
+
+        SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+        SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yy");
+
+
+        try {
+            viewHolder.pubDate.setText(myFormat.format(fromUser.parse(newsItem.getPublishedDate())));
+        } catch (ParseException e) {
+
+            viewHolder.pubDate.setText("");
+        }
+
+
         StringBuilder sb = new StringBuilder(myTitle);
-        
+
         int i = 0;
         while ((i = sb.indexOf(" ", i + 40)) != -1) {
             sb.replace(i, i + 1, "\n");
         }
         viewHolder.title.setText(sb.toString());
-        
-        /*  if(mydescription.length()<100)
-      {
-    	  mydescription = mydescription.substring(0, Math.min(mydescription.length(), 50)) + "....";
-      }
-      else
-      {
-    	  mydescription = mydescription.substring(0, Math.min(mydescription.length(), 100)) + "....";
-      }*/
-        
-        
-       switch(getItemViewType(position))
-    	{
-    	case 0:
-    		  mydescription = mydescription.substring(0, Math.min(mydescription.length(), 50)) + "....";
-    		
-    		break;
-    	case 1:
-    		 mydescription = mydescription.substring(0, Math.min(mydescription.length(), 100)) + "....";
-    		break;
-    	}
-       
-       	
-        viewHolder.description.setText(mydescription, BufferType.SPANNABLE);
-        
+
+
+        viewHolder.description.setMaxLines(3);
+        viewHolder.description.setEllipsize(TextUtils.TruncateAt.END);
+        viewHolder.description.setText(mydescription);
+
+
+        // Bitmap bitmap = DownloadImage(song.get(Home.THUMBNAILPATH));
+
+        if (!bitmapUrl.isEmpty() || bitmapUrl != null) {
+            imageLoader.DisplayImage(bitmapUrl, viewHolder.thumb_image);
+        } else
+        {
+            viewHolder.thumb_image.setImageResource(R.drawable.ic_launcher);
+        }
+
       
-        
-     
-        final String OLD_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-  		 final String NEW_FORMAT = "MMMM dd, yy";
-  		 
-  		 String newDate ="";
-  		 
-  		 SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-  		 try
-  		 {
-  			Date d = sdf.parse(myDate);
-  			sdf.applyLocalizedPattern(NEW_FORMAT);
-  			newDate = sdf.format(d);
-  			viewHolder.pubDate.setText(newDate);
-  		} 
-  		 catch (java.text.ParseException e)
-  		 {
-  			// TODO Auto-generated catch block
-  			e.printStackTrace();
-  		}		
-        
-        
-      
-         // Bitmap bitmap = DownloadImage(song.get(Home.THUMBNAILPATH));
-          
-          
-         viewHolder.thumb_image=(ImageView)vi.findViewById(com.zeven.attini.R.id.list_image); // thumb image
-         imageLoader.DisplayImage(bitmapUrl, viewHolder.thumb_image);
-      
-        
-     
-        
-       
+
       
         return vi;
     }
 	
-	private String skipLines(String in, int numLines)
-	{
-		int newlineIndex = 0;
-		try
-		{
-        
-        for(int i=0; i<numLines && i<in.length(); i++)
-        {
-            newlineIndex += in.indexOf('\n', newlineIndex);
-        }
-       
-		}
-		catch(StringIndexOutOfBoundsException e)
-		{
-			
-		}
-		 return new String(in.substring(0, newlineIndex));
-	}
+
 	
 	private class OpenHttpConnection extends AsyncTask<String, String, InputStream> 
 	{

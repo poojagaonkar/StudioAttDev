@@ -179,7 +179,7 @@ public class Home extends Activity implements OnItemClickListener
 
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) 
+	protected void onCreate(Bundle savedInstanceState)
 	{
 
 
@@ -221,12 +221,12 @@ public class Home extends Activity implements OnItemClickListener
         txtTitle.setGravity(Gravity.CENTER);
         txtTitle.setTextSize(20);
         txtTitle.setTypeface(null, Typeface.BOLD);
-        
+
         Display display = getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
         int width = size.x;
-       
+
         txtTitle.setWidth(width);
       Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
       txtTitle.setTypeface(typaFace);
@@ -253,9 +253,9 @@ public class Home extends Activity implements OnItemClickListener
 		{
 
 
-			items = new FetchItems().execute(registerContet).get();
+			myFinalNewsList = new FetchItems().execute(registerContet).get();
 
-			myFinalNewsList = new GetList().execute(items).get();
+			//myFinalNewsList = new GetList().execute(items).get();
 
 			if(myFinalNewsList.size() == 0)
 			{
@@ -315,11 +315,11 @@ public class Home extends Activity implements OnItemClickListener
 
 
 			}
-			
 
 
-		} 
-		catch (InterruptedException e) 
+
+		}
+		catch (InterruptedException e)
 		{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -348,18 +348,18 @@ public class Home extends Activity implements OnItemClickListener
 		// enabling action bar app icon and behaving it as toggle button
 		getActionBar().setDisplayHomeAsUpEnabled(true);
 		getActionBar().setHomeButtonEnabled(true);
-		
+
 		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
 				R.drawable.hamburger_button, //nav menu toggle icon
 				R.string.app_name, // nav drawer open - description for accessibility
 				R.string.app_name // nav drawer close - description for accessibility
 				) {
-			public void onDrawerClosed(View view) 
+			public void onDrawerClosed(View view)
 			{
 
 				getActionBar().setTitle("Attini Comms");
 				// calling onPrepareOptionsMenu() to show action bar icons
-				
+
 				invalidateOptionsMenu();
 			}
 
@@ -367,12 +367,12 @@ public class Home extends Activity implements OnItemClickListener
 				getActionBar().setTitle("Settings");
 				// calling onPrepareOptionsMenu() to hide action bar icons
 				invalidateOptionsMenu();
-				
+
 			}
 		};
 		mDrawerLayout.setDrawerListener(mDrawerToggle);
 
-		if (savedInstanceState == null) 
+		if (savedInstanceState == null)
 		{
 			// on first time display view for first nav item
 
@@ -382,14 +382,14 @@ public class Home extends Activity implements OnItemClickListener
 
 
 		//Second list
-		
+
 		final View footerView =  ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logoutfooter, null, false);
         mCatagoryList.addFooterView(footerView);
         footerView.setOnClickListener(new View.OnClickListener()
         {
-			
+
 			@Override
-			public void onClick(View v) 
+			public void onClick(View v)
 			{
 				// TODO Auto-generated method stub
 				// Logout
@@ -404,8 +404,8 @@ public class Home extends Activity implements OnItemClickListener
 		ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this, R.layout.drawer_list_item_2, R.id.txtCatagories, catagoryList);
 		mCatagoryList.setAdapter(adapter);
 		mCatagoryList.setOnItemClickListener(this);
-		
-	
+
+
 	}
 	public static List<News> getMyFinalNewsList() {
 		return myFinalNewsList;
@@ -427,14 +427,14 @@ public class Home extends Activity implements OnItemClickListener
 	{
 
 		@Override
-		protected String[] doInBackground(String... params) 
+		protected String[] doInBackground(String... params)
 		{
 			// TODO Auto-generated method stub
 			JSONArray jObject;
 			ArrayList<String> myTitleList = new ArrayList<String>();
 			String[] myTitlesArray =null;
 
-			try 
+			try
 			{
 				jObject = new JSONArray(params[0]);
 				for (int i = 0; i < jObject.length(); i++)
@@ -456,7 +456,7 @@ public class Home extends Activity implements OnItemClickListener
 		}
 	}
 	@Override
-	protected void onResume() 
+	protected void onResume()
 	{
 		// TODO Auto-generated method stub
 		super.onResume();
@@ -468,97 +468,27 @@ public class Home extends Activity implements OnItemClickListener
 
 	}
 
-	private class GetList extends AsyncTask<String, String, List<News>>
-	{
 
-
-		@Override
-		protected void onPostExecute(List<News> result) 
-		{
-			// TODO Auto-generated method stub
-			super.onPostExecute(result);
-			
-		}
-
-		@Override
-		protected void onPreExecute() 
-		{
-			// TODO Auto-generated method stub
-			super.onPreExecute();
-
-
-
-		}
-
-		@Override
-		protected List<News> doInBackground(String... params)
-		{
-			// TODO Auto-generated method stub
-			myNewsList.clear();
-			JSONArray jObject;
-			try 
-			{
-				jObject = new JSONArray(params[0]);
-				for (int i = 0; i < jObject.length(); i++)
-				{
-					JSONObject menuObject = jObject.getJSONObject(i);
-
-					String title= menuObject.getString("Title");
-					String description= menuObject.getString("BodyText");
-					String thumbnail= menuObject.getString("ThumbnailPath");
-					String newsUrl = menuObject.getString("Url");
-					String body = menuObject.getString("Body");
-					String newsBigImage = menuObject.getString("ThumbnailPath");
-					String newsComments = menuObject.getString("NumberOfComments");
-					String newsViews = menuObject.getString("NumberOfViews");
-					String publishedDate = menuObject.getString("PublishedDate");
-					String articleGuid = menuObject.getString("ArticleGuid");
-					String newsSourceId = menuObject.getString("NewsSourceId");
-					String newsId  = menuObject.getString("ArticleSPID");
-					String publisherName = menuObject.getString("AuthorDisplayName");
-					String newsSourceTitle = menuObject.getString("NewsSourceTitle");
-					String newsLikes  = menuObject.getString("NumberOfLikes");
-					String tags = menuObject.getString("EnterpriseKeywords");
-
-
-
-					myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags));
-
-
-
-				}
-
-			}
-			catch (JSONException e) 
-			{
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-			return myNewsList;
-		}
-
-
-
-	}
-	// Get response from the News API	    
-	private class FetchItems extends AsyncTask<String, String, String> 
+	// Get response from the News API
+	private class FetchItems extends AsyncTask<String, String, List<News>>
 	{
 		// TODO Auto-generated method stub
-		ProgressDialog myDialog; 
+		ProgressDialog myDialog;
 		boolean worked;
 		@Override
-		protected String doInBackground(String... params) 
+		protected List<News> doInBackground(String... params)
 		{
 			// TODO Auto-generated method stub
 			HttpResponse response =null;
 			String resultString = "";
 			String myResponseBody = "" ;
+
+			JSONArray jObject;
 			// Creating HTTP client
 			HttpClient httpClient = new DefaultHttpClient();
 			// Creating HTTP Post
 			HttpGet request = new HttpGet(params[0]);
-			try 
+			try
 			{
 				response = httpClient.execute(request);
 				if(response.getStatusLine().getStatusCode()== 200)
@@ -569,6 +499,32 @@ public class Home extends Activity implements OnItemClickListener
 
 						InputStream inputStream = entity.getContent();
 						myResponseBody = convertToString(inputStream);
+
+						myNewsList.clear();
+						jObject = new JSONArray(myResponseBody);
+						for (int i = 0; i < jObject.length(); i++) {
+							JSONObject menuObject = jObject.getJSONObject(i);
+
+							String title = menuObject.getString("Title");
+							String description = menuObject.getString("BodyText");
+							String thumbnail = menuObject.getString("ThumbnailPath");
+							String newsUrl = menuObject.getString("Url");
+							String body = menuObject.getString("Body");
+							String newsBigImage = menuObject.getString("ThumbnailPath");
+							String newsComments = menuObject.getString("NumberOfComments");
+							String newsViews = menuObject.getString("NumberOfViews");
+							String publishedDate = menuObject.getString("PublishedDate");
+							String articleGuid = menuObject.getString("ArticleGuid");
+							String newsSourceId = menuObject.getString("NewsSourceId");
+							String newsId = menuObject.getString("ArticleSPID");
+							String publisherName = menuObject.getString("AuthorDisplayName");
+							String newsSourceTitle = menuObject.getString("NewsSourceTitle");
+							String newsLikes = menuObject.getString("NumberOfLikes");
+							String tags = menuObject.getString("EnterpriseKeywords");
+
+
+							myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags));
+						}
 					}
 				}
 				else
@@ -579,7 +535,7 @@ public class Home extends Activity implements OnItemClickListener
 			catch(Exception e)
 			{
 			}
-			return myResponseBody;
+			return myNewsList;
 		}
 
 
@@ -587,13 +543,14 @@ public class Home extends Activity implements OnItemClickListener
 
 
 		@Override
-		protected void onPostExecute(String result) 
+		protected void onPostExecute(List<News> result)
 		{
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
 			if(refDialog!=null)
 			{
 				refDialog.dismiss();
+				Fragment mFragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),myFinalNewsList);
 			}
 
 		}
@@ -603,11 +560,11 @@ public class Home extends Activity implements OnItemClickListener
 
 
 		@Override
-		protected void onPreExecute() 
+		protected void onPreExecute()
 		{
 			// TODO Auto-generated method stub
 			super.onPreExecute();
-		
+
 			ConnectionDetector cd = new ConnectionDetector(Home.this);
 			if(cd.isConnectingToInternet()== false)
 			{
@@ -615,8 +572,8 @@ public class Home extends Activity implements OnItemClickListener
 			    .setTitle("Network error")
 			    .setMessage("Please check your internet connection")
 			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) 
-			        { 
+			        public void onClick(DialogInterface dialog, int which)
+			        {
 			        	worked = false;
 			            finish();
 			        }
@@ -631,7 +588,7 @@ public class Home extends Activity implements OnItemClickListener
 				refDialog =null;
 			}
 			refDialog =  WaitProgressFragment.newInstance();
-			
+
 			refDialog.show(getFragmentManager(), "Wait");
 			}
 		}
@@ -639,19 +596,19 @@ public class Home extends Activity implements OnItemClickListener
 
 
 
-		private String convertToString(InputStream inputStream) 
+		private String convertToString(InputStream inputStream)
 		{
 			// TODO Auto-generated method stub
 			StringBuffer string = new StringBuffer();
 			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 			String line;
-			try 
+			try
 			{
-				while ((line = reader.readLine()) != null) 
+				while ((line = reader.readLine()) != null)
 				{
 					string.append(line + "\n");
 				}
-			} 
+			}
 			catch (IOException e) {}
 			return string.toString();
 		}
@@ -660,7 +617,7 @@ public class Home extends Activity implements OnItemClickListener
 	}
 
 	@Override
-	protected void onRestart() 
+	protected void onRestart()
 	{
 
 		// TODO Auto-generated method stub
@@ -675,11 +632,11 @@ public class Home extends Activity implements OnItemClickListener
 	 * Slide menu item click listener
 	 * */
 	private class SlideMenuClickListener implements
-	ListView.OnItemClickListener 
+	ListView.OnItemClickListener
 	{
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) 
+				long id)
 		{
 			// display view for selected nav drawer item
 
@@ -695,8 +652,8 @@ public class Home extends Activity implements OnItemClickListener
 	}
 
 	@Override
-	public boolean onOptionsItemSelected(MenuItem item) 
-	{ 
+	public boolean onOptionsItemSelected(MenuItem item)
+	{
 		Fragment fragment = null;
 		// toggle nav drawer on selecting action bar app icon/title
 		ProgressDialog pg;
@@ -704,25 +661,31 @@ public class Home extends Activity implements OnItemClickListener
 			return true;
 		}
 		// Handle action bar actions click
-		switch (item.getItemId()) 
+		switch (item.getItemId())
 		{
 
 		case R.id.action_refresh:
 
-			String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
+            String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
 			new FetchItems().execute(registerContet);
-		/*	new GetList().execute();
-			
-			myFinalNewsList = getMyFinalNewsList();*/
-			fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),myFinalNewsList);
-			
-			return true;
-			
+			/*try {
+				new FetchItems().execute(registerContet);
+				//myFinalNewsList = new GetList().execute(items).get();
+
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
+			}*/
+
+
+			break;
+
 
 		default:
 			return super.onOptionsItemSelected(item);
 		}
-		
+		return  true;
 	}
 
 

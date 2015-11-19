@@ -353,7 +353,7 @@ containing a value of this type.
     }
     public static final class id {
         public static final int LoginBox=0x7f0c0001;
-        public static final int action_refresh=0x7f0c0048;
+        public static final int action_refresh=0x7f0c0049;
         public static final int btnAddComms=0x7f0c003b;
         public static final int btnAddLikes=0x7f0c003c;
         public static final int btnBackArticle=0x7f0c0026;
@@ -402,6 +402,7 @@ containing a value of this type.
         public static final int txtCatagories=0x7f0c000f;
         public static final int txtCatagory=0x7f0c002c;
         public static final int txtCounter=0x7f0c000e;
+        public static final int txtMessage=0x7f0c0048;
         public static final int txtNewsArticleMainTitle=0x7f0c0027;
         public static final int txtNewsBody=0x7f0c0034;
         public static final int txtNewsComments=0x7f0c0031;

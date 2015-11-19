@@ -2,74 +2,11 @@
 <items version="2" >
 
     <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\NewAttini\staggeredGridViewmaster\unspecified\jars\classes.jar"
+        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.mcxiaoke.volley\library-aar\1.0.0\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="4632a202b48ef614a4792287c8c2533bc3e22eef">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-2caadfc4402b34beafbc01b9f72a8c6ecbbe1ca9.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\jsoup-1.6.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="105282b5f0f6f9dffe468e18159af0eeb9e10f9f">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\jsoup-1.6.0-09b402ecd432a54fd78ec974c64ab71a9dbad194.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\jackson-annotations-2.2.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="0527fece4f23a457070a36c371a26d6c0208e1c3">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\jackson-annotations-2.2.3-fc9f7b2e03eeb00aa1c1d80d0d90f8029cb25baf.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\guava-17.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="9c6ef172e8de35fd8d4d8783e4821e57cdef7445">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\guava-17.0-4b59c878a1341ea72ee1b40ec61dec3d8b692c1a.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\NewAttini\main\unspecified\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="332a81977f4d7cc85b9a4e33c0aa2785a4a7e11f">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-b73ab33bed783d071397d230fd26c5ccae45af4a.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\lambdaj-2.4.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="278a666518cb0c1ade2934a4a2b06984ae90672a">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\lambdaj-2.4-f471dd6130604bca04efd7b500f9e9f8bc59e4d0.jar" />
-    </item>
-    <item
-        jar="C:\Users\PoojaG\AppData\Local\Android\android-sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\support-v4-18.0.0-852daea54331794e470c5b5b9f40dee6f8f7847e.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\json-simple-1.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\json-simple-1.1.1-6b9bd095fdf720847da7e5b9ee9c02699294fd21.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\jackson-core-2.2.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="1a0113da2cab5f4c216b4e5e7c1dbfaa67087e14">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\jackson-core-2.2.3-944122fdc9c3f09dc5a364927bfd9b60a9867815.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\jackson-databind-2.2.3.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="03ae380888029daefb91d3ecdca3a37d8cb92bc9">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\jackson-databind-2.2.3-7ecbd15ad6c7baecf9fb911fdc6ed61cb4fc0726.jar" />
+        sha1="e40b9a81989bd4a846018551c280f8c4d837bf2e">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-95bf98f2e844b420a01198b1a8141ededc7dca88.jar" />
     </item>
 
 </items>

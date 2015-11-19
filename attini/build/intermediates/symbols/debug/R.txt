@@ -241,7 +241,7 @@ int drawable views_selected 0x7f02003f
 int drawable viewsmall 0x7f020040
 int drawable viewsmallpressed 0x7f020041
 int id LoginBox 0x7f0c0001
-int id action_refresh 0x7f0c0048
+int id action_refresh 0x7f0c0049
 int id btnAddComms 0x7f0c003b
 int id btnAddLikes 0x7f0c003c
 int id btnBackArticle 0x7f0c0026
@@ -290,6 +290,7 @@ int id title 0x7f0c0007
 int id txtCatagories 0x7f0c000f
 int id txtCatagory 0x7f0c002c
 int id txtCounter 0x7f0c000e
+int id txtMessage 0x7f0c0048
 int id txtNewsArticleMainTitle 0x7f0c0027
 int id txtNewsBody 0x7f0c0034
 int id txtNewsComments 0x7f0c0031

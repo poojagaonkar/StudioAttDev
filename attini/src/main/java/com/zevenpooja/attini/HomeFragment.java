@@ -161,11 +161,11 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
         
         txtTitle = (TextView)vi.findViewById(R.id.title);
 		txtBody = (TextView)vi.findViewById(R.id.desc);
-		
-		
+
+
 		imgThumbnail = (ImageView)vi.findViewById(R.id.icon);
 		newsList = (ListView)vi.findViewById(android.R.id.list);
-		
+
 		mGridView =(com.etsy.android.grid.StaggeredGridView)vi.findViewById(R.id.staggeredGridView1);
 	
 

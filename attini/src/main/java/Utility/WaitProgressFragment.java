@@ -5,14 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.zeven.attini.R;
 
 public class WaitProgressFragment extends DialogFragment
 {
-	
+
 	 public static WaitProgressFragment newInstance()
 	    {
+
 	        return new WaitProgressFragment();
 	    }
 	 
@@ -25,7 +27,10 @@ public class WaitProgressFragment extends DialogFragment
 	    @Override
 	    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
 	    {
-	        return inflater.inflate(R.layout.waitdialog, container, false);
+			View v = inflater.inflate(R.layout.waitdialog, container, false);
+			TextView txtMessage = (TextView)v.findViewById(R.id.txtMessage);
+			txtMessage.setText("Getting your news..");
+	        return v;
 	    }
 }
 

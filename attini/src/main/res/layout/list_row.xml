@@ -42,7 +42,8 @@
             android:text="date"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#FFFFFF"
-            android:textSize="10sp" />
+            android:textSize="10sp"
+             />
                
 
             </LinearLayout>
