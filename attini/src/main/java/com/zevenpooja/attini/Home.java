@@ -35,6 +35,7 @@ import Attini.Model.NavDrawerItem;
 import Attini.Model.NavDrawerListAdapter;
 import Utility.ArticleFilter;
 import Utility.CommentsComparator;
+import Utility.DialogHelper;
 import Utility.ListViewInScrollViewHeight;
 import Utility.MyComparator;
 import Utility.ProgressDialogFragment;
@@ -183,28 +184,17 @@ public class Home extends Activity implements OnItemClickListener
 
 
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.drawerlayout); 
+		setContentView(R.layout.drawerlayout);
 
 		ConnectionDetector cd = new ConnectionDetector(Home.this);
 		if(cd.isConnectingToInternet()== false)
 		{
-			new AlertDialog.Builder(this)
-			.setTitle("Network error")
-			.setMessage("Please check your internet connection")
-			.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-
-				public void onClick(DialogInterface dialog, int which) 
-				{ 
-					canContinue = false;
-					finish();
-				}
-			})
-			.show();
+			DialogHelper.CreateNetworkAlert(Home.this, "Network Error", "Check your internet connection");
 		}
 
 		else
 
-			txtDrawerUserName = (TextView)findViewById(R.id.txtUserDrawer);
+		txtDrawerUserName = (TextView)findViewById(R.id.txtUserDrawer);
 		viewIconColor = (View)findViewById(R.id.viewIconColor);
 		mainLinearLayout = (ScrollView)findViewById(R.id.left_drawer);
 		mCatagoryList = (ListView)findViewById(R.id.list_slidermenu2);
@@ -259,33 +249,23 @@ public class Home extends Activity implements OnItemClickListener
 
 		navDrawerItems = new ArrayList<NavDrawerItem>();
 
-		try 
+		try
 		{
 
 
 			items = new FetchItems().execute(registerContet).get();
 
 			myFinalNewsList = new GetList().execute(items).get();
-			
+
 			if(myFinalNewsList.size() == 0)
 			{
-				new AlertDialog.Builder(Home.this)
-				.setTitle("Something went wrong!")
-			    .setMessage("Problem while fetching the news. Try again later.")
-			   
-			    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which) { 
-			            // do nothing
-			        }
-			     })
-			   
-			     .show();
-				
+				DialogHelper.CreateNetworkAlert(Home.this, "Error", "Something went wrong");
+
 			}
 
 			Map<String, String> idToColorMap = new HashMap<String, String>();
 			int colorIndex = 0;
-			for (int i = 0; i < myFinalNewsList.size(); i++) 
+			for (int i = 0; i < myFinalNewsList.size(); i++)
 			{
 				if (myFinalNewsList.size() > 1 && !idToColorMap.containsKey(myFinalNewsList.get(i).getNewsSourceId())) {
 					News currentNews = myFinalNewsList.get(i);
@@ -304,7 +284,7 @@ public class Home extends Activity implements OnItemClickListener
 				} else {
 					myFinalNewsList.get(0).setColor(colorPallete[0]);
 					idToColorMap.put(myFinalNewsList.get(0).getNewsSourceId(), colorPallete[0]);
-				}  
+				}
 			}
 
 
@@ -319,19 +299,19 @@ public class Home extends Activity implements OnItemClickListener
 
 			TreeSet<String> mySet =  new TreeSet<String>(isonColors);
 			//iconColors = isonColors.toArray(new String[isonColors.size()]);
-		
+
 		//	iconColors = new HashSet<String>(Arrays.asList(iconColors)).toArray(new String[0]);
 			iconColors =  mySet.toArray(new String[mySet.size()]);
 			iconColors = addFirst(iconColors, "#FFFFFF");
 
 			navMenuTitles = new GetNavDrawerItems().execute(items).get();
-			
+
 			navMenuTitles = new HashSet<String>(Arrays.asList(navMenuTitles)).toArray(new String[0]);
 			navMenuTitles = addFirst(navMenuTitles, "All News");
 			for(int j =0 ;j <navMenuTitles.length && j<iconColors.length;j++)
 			{
 
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[j], iconColors[j]));	
+				navDrawerItems.add(new NavDrawerItem(navMenuTitles[j], iconColors[j]));
 
 
 			}
@@ -534,7 +514,7 @@ public class Home extends Activity implements OnItemClickListener
 					String publishedDate = menuObject.getString("PublishedDate");
 					String articleGuid = menuObject.getString("ArticleGuid");
 					String newsSourceId = menuObject.getString("NewsSourceId");
-					String newsId  = menuObject.getString("ID");
+					String newsId  = menuObject.getString("ArticleSPID");
 					String publisherName = menuObject.getString("AuthorDisplayName");
 					String newsSourceTitle = menuObject.getString("NewsSourceTitle");
 					String newsLikes  = menuObject.getString("NumberOfLikes");

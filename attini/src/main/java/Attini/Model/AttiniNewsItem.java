@@ -8,54 +8,54 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class AttiniNewsItem 
+public class AttiniNewsItem
 {
 	@JsonProperty("NewsSourceId")
 	public String NewsSourceId;
-	
+
 	@JsonProperty("ArticleGuid")
 	public String ArticleGuid;
-	
+
 	@JsonProperty("Url")
 	public String Url;
-	
+
 	@JsonProperty("Title")
 	public String Title;
-	
+
 	@JsonProperty("BodyText")
 	public String BodyText;
-	
+
 	@JsonProperty("Body")
 	public String Body;
-	
+
 	@JsonProperty("EnterpriseKeywords")
 	public String EnterpriseKeywords;
-	
+
 	@JsonProperty("ThumbnailPath")
 	public String ThumbnailPath;
-	
+
 	@JsonProperty("ThumbnailDescription")
 	public String ThumbnailDescription;
-	
+
 	@JsonProperty("ImageUrls")
 	public String ImageUrls;
-	
+
 	@JsonProperty("ImageBlobUrls")
 	public String ImageBlobUrls;
-	
+
 	@JsonProperty("isPlaceHolderForThumbnail")
 	public String isPlaceHolderForThumbnail;
-	
-	
+
+
 	@JsonProperty("PublishedDate")
 	public String PublishedDate;
-	
+
 	@JsonProperty("NumberOfComments")
 	public String NumberOfComments;
-	
+
 	@JsonProperty("CreatedDate")
 	public String CreatedDate;
-	
+
 	public String getNewsSourceId() {
 		return NewsSourceId;
 	}
@@ -186,32 +186,32 @@ public class AttiniNewsItem
 
 	@JsonProperty("AuthorLoginName")
 	public String AuthorLoginName;
-	
+
 	public List<AttiniNewsItem> GetNewsRecords(String result)
 	{
-		
+
 			List<AttiniNewsItem> attini = null;
-			try 
+			try
 			{
 				attini = (List<AttiniNewsItem>) new ObjectMapper().readValue(result, AttiniNewsItem.class);
 			}
-			catch (JsonParseException e) 
+			catch (JsonParseException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
-			catch (JsonMappingException e) 
+			}
+			catch (JsonMappingException e)
 			{
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} 
+			}
 			catch (IOException e) {
-				
+
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			return attini;
-		
-		
+
+
 	}
 }
