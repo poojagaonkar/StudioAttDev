@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import Attini.DAL.EndPoints;
 import Attini.Model.ConnectionDetector;
 import Utility.CommentsAdapter;
+import Utility.DialogHelper;
 import Utility.HorizontalListView;
 import Utility.ListViewInScrollViewHeight;
 import Utility.WaitProgressFragment;
@@ -217,20 +218,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 			ConnectionDetector cd = new ConnectionDetector(NewsDetails.this);
 			if(cd.isConnectingToInternet()== false)
 			{
-				new AlertDialog.Builder(this)
-			    .setTitle("Network error")
-			    .setMessage("Please check your internet connection")
-			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() 
-			    {
-			      
-
-					public void onClick(DialogInterface dialog, int which) 
-			        { 
-			            canContinue = false;
-			            finish();
-			        }
-			     })
-			    .show();
+				DialogHelper.CreateNetworkAlert(NewsDetails.this, "Network Error", "Check your internet connection");
 			}
 		}
 		else

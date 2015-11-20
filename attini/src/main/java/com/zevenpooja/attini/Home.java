@@ -169,7 +169,7 @@ public class Home extends Activity implements OnItemClickListener
 	public static List<News> companyNewsList = new ArrayList<News>();
 	public static ArrayList<String> catagoryArrayList = new ArrayList<String>();
 
-	public static String[] catagoryList = new String[] {"Most liked", "Most commented", "Most Viewed", "About us"};//,"Logout"};
+	public static String[] catagoryList = new String[] {"Most liked", "Most commented", "Most Viewed", "About Us"};//,"Logout"};
 	public static String[] colorPallete = new String[] {"#1F1A17", "#62934D", "#F9B03F", "#7959BC", "#74B8DE", "#E65641", "#7CC8BB", "#D7CE5D", "#D6BE95", "#B694D1"};
 	private String NewsSourceTitle = null;
 	ProgressDialogFragment prog;
@@ -529,7 +529,8 @@ public class Home extends Activity implements OnItemClickListener
 				}
 				else
 				{
-					Toast.makeText(Home.this, "Something went wrong!", Toast.LENGTH_LONG).show();
+					DialogHelper.CreateNetworkAlert(Home.this, "Error", "Something went wrong");
+
 				}
 			}
 			catch(Exception e)
@@ -831,7 +832,7 @@ public class Home extends Activity implements OnItemClickListener
 			  message.setPadding(12, 12, 12, 12);
 
 			  	new AlertDialog.Builder(Home.this)
-			   .setTitle("About us")
+			   .setTitle("About Us")
 			   .setCancelable(true)
 			   .setIcon(android.R.drawable.ic_dialog_info)
 			   .setPositiveButton("Ok", null)

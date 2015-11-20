@@ -55,7 +55,7 @@
             android:name="com.zevenpooja.attini.Home"
             android:label="@string/app_name" 
             android:logo="@drawable/hamburger_button"
-            android:configChanges="orientation|screenSize">
+            android:configChanges="keyboardHidden|orientation|screenSize">
             
             
          

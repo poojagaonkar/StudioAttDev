@@ -22,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Color;
+import android.graphics.drawable.GradientDrawable;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -172,12 +173,9 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 		setHasOptionsMenu(true);
 		
 	// Check if orientation is Portrait	
-		if(mGridView == null)
+		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
 		{
-			myNewsList.clear();
-			//String NewsRecordsEndPoint = "https://www.attinicomms.com/api/cpnews?";
-		  //  String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=10";
-			
+
 			itemsAdapter = new LazyAdapter(myContext,0, getList );
 			newsList.setAdapter(itemsAdapter);
 			itemsAdapter.notifyDataSetChanged();
@@ -203,7 +201,7 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 		// If orientation is landscape
 		else
 		{
-			myNewsList.clear();
+
 			mGridView.setFastScrollEnabled(false);
 			stagAdaper = new StaggeredAdapter(myContext, android.R.layout.simple_list_item_1, getList, HomeFragment.this);
 			mGridView.setAdapter(stagAdaper);
@@ -309,6 +307,7 @@ private void accelerometerMethod()
 		}
 		else if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
 		{
+
 			mGridView.setColumnCount(3);
 			mGridView.invalidate();
 		}

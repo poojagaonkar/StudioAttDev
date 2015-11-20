@@ -47,7 +47,7 @@
         </activity>
         <activity
             android:name="com.zevenpooja.attini.Home"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:logo="@drawable/hamburger_button" >
         </activity>
