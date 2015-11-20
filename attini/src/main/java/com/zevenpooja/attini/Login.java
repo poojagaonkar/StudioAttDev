@@ -262,7 +262,7 @@ public class Login extends Activity
 		ProgressDialog dialog;
 		Context mContext;
 		private boolean didItWork;
-		JSONParser parser;
+
 		Object register;
 
 		Activity mActivity;
@@ -361,7 +361,8 @@ public class Login extends Activity
 		@Override
 		protected void onPostExecute(String result)
 		{
-			// TODO Auto-generated method stub
+
+			JSONParser parser = new JSONParser();
 			super.onPostExecute(result);
 			if(dialog!=null && dialog.isShowing())
 			{

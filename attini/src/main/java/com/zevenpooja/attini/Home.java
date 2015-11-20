@@ -176,6 +176,7 @@ public class Home extends Activity implements OnItemClickListener
 	private ProgressDialogFragment myprogressDialog;
 	private List<News> updatedList;
 	private boolean canContinue  = true;
+    ArrayList<String> myTitleList = new ArrayList<String>();
 
 
 	@Override
@@ -184,7 +185,6 @@ public class Home extends Activity implements OnItemClickListener
 
 
 		super.onCreate(savedInstanceState);
-
 		setContentView(R.layout.drawerlayout);
 
 		ConnectionDetector cd = new ConnectionDetector(Home.this);
@@ -200,8 +200,6 @@ public class Home extends Activity implements OnItemClickListener
 		mainLinearLayout = (ScrollView)findViewById(R.id.left_drawer);
 		mCatagoryList = (ListView)findViewById(R.id.list_slidermenu2);
 		moptionsList = (ListView)findViewById(R.id.list_slidermenu3);
-        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
 
 
@@ -231,17 +229,19 @@ public class Home extends Activity implements OnItemClickListener
         int width = size.x;
 
         txtTitle.setWidth(width);
-        Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
-        txtTitle.setTypeface(typaFace);
+      Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
+      txtTitle.setTypeface(typaFace);
 		mTitle = mDrawerTitle = getTitle();
 		getActionBar().setDisplayShowHomeEnabled(false);
 
 
 
 		// nav drawer icons from resources
-		navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
+		navMenuIcons = getResources()
+				.obtainTypedArray(R.array.nav_drawer_icons);
 
-
+		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
 		txtDrawerUserName.setText(fullName);
 		txtDrawerUserName.setTextColor(Color.WHITE);
@@ -255,7 +255,6 @@ public class Home extends Activity implements OnItemClickListener
 
 
 			myFinalNewsList = new FetchItems().execute(registerContet).get();
-
 			//myFinalNewsList = new GetList().execute(items).get();
 
 			if(myFinalNewsList.size() == 0)
@@ -305,7 +304,8 @@ public class Home extends Activity implements OnItemClickListener
 			iconColors =  mySet.toArray(new String[mySet.size()]);
 			iconColors = addFirst(iconColors, "#FFFFFF");
 
-			navMenuTitles = new GetNavDrawerItems().execute(items).get();
+			navMenuTitles = myTitleList.toArray(new String[myTitleList.size()]);
+			//new GetNavDrawerItems().execute().get();
 
 			navMenuTitles = new HashSet<String>(Arrays.asList(navMenuTitles)).toArray(new String[0]);
 			navMenuTitles = addFirst(navMenuTitles, "All News");
@@ -424,38 +424,7 @@ public class Home extends Activity implements OnItemClickListener
 		}
 		return ret;
 	}
-	private class GetNavDrawerItems extends AsyncTask<String, String, String[]>
-	{
 
-		@Override
-		protected String[] doInBackground(String... params)
-		{
-			// TODO Auto-generated method stub
-			JSONArray jObject;
-			ArrayList<String> myTitleList = new ArrayList<String>();
-			String[] myTitlesArray =null;
-
-			try
-			{
-				jObject = new JSONArray(params[0]);
-				for (int i = 0; i < jObject.length(); i++)
-				{
-
-					JSONObject menuObject = jObject.getJSONObject(i);
-					String newsSourceTitle = menuObject.getString("NewsSourceTitle");
-
-					myTitleList.add(newsSourceTitle);
-				}
-
-			}
-			catch(Exception e)
-			{
-
-			}
-			return myTitleList.toArray(new String[myTitleList.size()]);
-
-		}
-	}
 	@Override
 	protected void onResume()
 	{
@@ -525,6 +494,7 @@ public class Home extends Activity implements OnItemClickListener
 
 
 							myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags));
+                            myTitleList.add(newsSourceTitle);
 						}
 					}
 				}
