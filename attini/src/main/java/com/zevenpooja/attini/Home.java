@@ -184,6 +184,7 @@ public class Home extends Activity implements OnItemClickListener
 
 
 		super.onCreate(savedInstanceState);
+
 		setContentView(R.layout.drawerlayout);
 
 		ConnectionDetector cd = new ConnectionDetector(Home.this);
@@ -199,6 +200,8 @@ public class Home extends Activity implements OnItemClickListener
 		mainLinearLayout = (ScrollView)findViewById(R.id.left_drawer);
 		mCatagoryList = (ListView)findViewById(R.id.list_slidermenu2);
 		moptionsList = (ListView)findViewById(R.id.list_slidermenu3);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
 
 
@@ -228,19 +231,17 @@ public class Home extends Activity implements OnItemClickListener
         int width = size.x;
 
         txtTitle.setWidth(width);
-      Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
-      txtTitle.setTypeface(typaFace);
+        Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
+        txtTitle.setTypeface(typaFace);
 		mTitle = mDrawerTitle = getTitle();
 		getActionBar().setDisplayShowHomeEnabled(false);
 
 
 
 		// nav drawer icons from resources
-		navMenuIcons = getResources()
-				.obtainTypedArray(R.array.nav_drawer_icons);
+		navMenuIcons = getResources().obtainTypedArray(R.array.nav_drawer_icons);
 
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+
 
 		txtDrawerUserName.setText(fullName);
 		txtDrawerUserName.setTextColor(Color.WHITE);

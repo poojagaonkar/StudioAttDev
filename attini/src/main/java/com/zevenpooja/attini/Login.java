@@ -1,14 +1,28 @@
 package com.zevenpooja.attini;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 import Attini.DAL.EndPoints;
-import Attini.DAL.RegisterDevice;
+
 import Attini.Model.ConnectionDetector;
 //import Attini.Model.UserFunctions;
 import Utility.DialogHelper;
@@ -23,6 +37,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.provider.Settings.Secure;
@@ -38,6 +53,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.zeven.attini.R;
@@ -99,17 +115,7 @@ public class Login extends Activity
 		cd = new ConnectionDetector(Login.this);
 		if(cd.isConnectingToInternet()== false)
 		{
-			new AlertDialog.Builder(this)
-		    .setTitle("Network error")
-		    .setMessage("Please check your internet connection")
-		    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-		        public void onClick(DialogInterface dialog, int which)
-		        {
-		            canContinue = false;
-		            finish();
-		        }
-		     })
-		    .show();
+			DialogHelper.CreateNetworkAlert(Login.this, "Network Error", "Check your internet connection");
 		}
 		else
 			
@@ -185,78 +191,24 @@ public class Login extends Activity
 				else
 					
 				canContinue= true;
-				
-				 	boolean didItWork =true;
-				 	
-					username = editUser.getText().toString().trim();
+				boolean didItWork =true;
+				username = editUser.getText().toString().trim();
 			
-					if(username.length()==0)
-			        {
+				if(username.length()==0)
+				{
 
 						DialogHelper.CreateNetworkAlert(Login.this, "Error", "Invalid credentials");
 
-			        }
-					
-				   
-					else
-					{
+			    }
+				else {
 					isUserSaved = true;
-				
-				
-			        //deviceId
-			         deviceId = GetDeviceId(); 
-			      
-			        //deviceName
-			        deviceName = GetMachineName();
-			        
-			        //Parse JSON reponse to objects
-			        JSONParser parser = new JSONParser();
-			        Object register;
-                    ProgressDialog dialog = new ProgressDialog(Login.this);
-                    dialog.setMessage("Authenticating");
-                        dialog.show();
-						try
-						{
+					//deviceId
+					deviceId = GetDeviceId();
 
-
-							responseData= new RegisterDevice(Login.this).execute(RegisterDeviceUrl).get();
-                            if(responseData == "")
-                            {
-                                DialogHelper.CreateNetworkAlert(Login.this, "Error", "Something went wrong");
-                                dialog.dismiss();
-								return;
-                            }
-                            else
-
-							didItWork = true;
-
-							register= parser.parse(responseData);
-							org.json.simple.JSONObject registerDevice = (org.json.simple.JSONObject) register;
-
-							//Convert Json objects to strings
-							deviceAuthUrl  = (String) registerDevice.get("DeviceAuthUrl");
-							hostUrlToken = (String) registerDevice.get("HostUrl");
-							encodedAccountNameToken = (String) registerDevice.get("EncodedAccountName");
-							endPointHost = (String) registerDevice.get("EndPointHost");
-
-
-
-
-							//Save user details
-						    sessionManager.createLoginSession(username, deviceAuthUrl, deviceId, endPointHost, deviceName, name	, encodedAccountNameToken, hostUrlToken,true, true);
-                            dialog.dismiss();
-							startMyActivity();
-							finish();
-							
-						}
-						catch (Exception e)
-						{
-                            DialogHelper.CreateNetworkAlert(Login.this, "Error", "Something went wrong");
-                            dialog.dismiss();
-						}
-
-
-                    }
+					//deviceName
+					deviceName = GetMachineName();
+					new RegisterDevice(Login.this).execute(RegisterDeviceUrl);
+				}
 			
 			}
 
@@ -292,21 +244,162 @@ public class Login extends Activity
 			}
 		});
       }
-        
 
-    	
-	
+
+
 	}
-	public void startMyActivity()
+	private void startMyActivity()
 	{
-		// TODO Auto-generated method stub
-
 		Intent in = new Intent(Login.this, Details1.class);
-
 		in.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		
 		startActivity(in);
-		finish();	
+		finish();
+	}
+
+	public class RegisterDevice extends AsyncTask<String, String, String>
+	{
+		Login login = new Login();
+		ProgressDialog dialog;
+		Context mContext;
+		private boolean didItWork;
+		JSONParser parser;
+		Object register;
+
+		Activity mActivity;
+
+		public RegisterDevice(Login login2)
+		{
+			// TODO Auto-generated constructor stub
+			this.mContext = login2;
+			this.mActivity = login2;
+		}
+
+		@Override
+		protected void onPreExecute()
+		{
+			// TODO Auto-generated method stub
+			super.onPreExecute();
+
+			ConnectionDetector cd = new ConnectionDetector(mContext);
+			if(cd.isConnectingToInternet()== false)
+			{
+				DialogHelper.CreateNetworkAlert(Login.this, "Network Error", "Check your internet connection");
+			}
+			dialog  = new ProgressDialog(Login.this);
+			dialog.setMessage("Authenticating");
+			dialog.show();
+		}
+
+		@Override
+		protected String doInBackground(String... params) {
+			// TODO Auto-generated method stub
+
+			String Url = params[0];
+			HttpResponse response =null;
+			String resultString = "";
+			String responseBody = "" ;
+			// Creating HTTP client
+			HttpClient httpClient = new DefaultHttpClient();
+			// Creating HTTP Post
+			HttpPost httpPost = new HttpPost(Url);
+
+			// Building post parameters
+			// key and value pair
+			List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(3);
+			nameValuePair.add(new BasicNameValuePair("DeviceId", Login.deviceId));
+			nameValuePair.add(new BasicNameValuePair("Name",Login.deviceName));
+			nameValuePair.add(new BasicNameValuePair("EncodedAccountName",Login.username));
+
+			// Url Encoding the POST parameters
+			try
+			{
+				httpPost.setEntity(new UrlEncodedFormEntity(nameValuePair));
+			}
+			catch (UnsupportedEncodingException e)
+			{
+				// writing error to Log
+				e.printStackTrace();
+			}
+
+			// Making HTTP Request
+			try
+			{
+				response = httpClient.execute(httpPost);
+				if(response.getStatusLine().getStatusCode()==200)
+				{
+					HttpEntity entity = response.getEntity();
+
+
+					if(entity!=null)
+					{
+						responseBody = EntityUtils.toString(entity);
+					}
+
+				}
+				else
+				{
+					responseBody = "InvalidCredentials";
+				}
+				// writing response to log
+
+			}
+			catch (ClientProtocolException e)
+			{
+				// writing exception to log
+				e.printStackTrace();
+			}
+			catch (IOException e)
+			{
+				// writing exception to log
+				e.printStackTrace();
+
+			}
+
+			return resultString = responseBody;
+		}
+
+		@Override
+		protected void onPostExecute(String result)
+		{
+			// TODO Auto-generated method stub
+			super.onPostExecute(result);
+			if(dialog!=null && dialog.isShowing())
+			{
+				try {
+					if(result == "" || result.matches("InvalidCredentials"))
+					{
+						DialogHelper.CreateNetworkAlert(mActivity, "Error", "Invalid credentials");
+						dialog.dismiss();
+
+					}
+					else {
+						didItWork = true;
+
+						register = parser.parse(result);
+						org.json.simple.JSONObject registerDevice = (org.json.simple.JSONObject) register;
+
+						//Convert Json objects to strings
+						deviceAuthUrl = (String) registerDevice.get("DeviceAuthUrl");
+						hostUrlToken = (String) registerDevice.get("HostUrl");
+						encodedAccountNameToken = (String) registerDevice.get("EncodedAccountName");
+						endPointHost = (String) registerDevice.get("EndPointHost");
+
+
+						sessionManager.createLoginSession(username, deviceAuthUrl, deviceId, endPointHost, deviceName, name, encodedAccountNameToken, hostUrlToken, true, true);
+						dialog.dismiss();
+						startMyActivity();
+
+					}
+				}
+				catch (Exception e)
+				{
+					dialog.dismiss();
+					DialogHelper.CreateNetworkAlert(Login.this, "Error", "Something went wrong");
+				}
+			}
+
+
+		}
 
 	}
 
