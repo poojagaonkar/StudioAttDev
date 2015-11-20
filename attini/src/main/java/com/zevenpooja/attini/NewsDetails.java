@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -248,24 +249,17 @@ public class NewsDetails extends Activity implements  OnClickListener
 		fullName = in.getStringExtra("FullName");
 
 		// Applying date
-		final String OLD_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-		final String NEW_FORMAT = "dd MMMM yyyy";
+		SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yy");
 
-		String newDate ="";
 
-		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-		try
-		{
-			Date d = sdf.parse(pubDate);
-			sdf.applyLocalizedPattern(NEW_FORMAT);
-			newDate = sdf.format(d);
-			txtPubDate.setText(newDate);
-		} 
-		catch (java.text.ParseException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		try {
+			txtPubDate.setText(myFormat.format(fromUser.parse(pubDate)));
+		} catch (ParseException e) {
+
+			txtPubDate.setText("");
 		}
+
 
 		//Adding colors
 		viewDateView.setBackgroundColor(Color.parseColor(mycolor));
@@ -656,6 +650,10 @@ public class NewsDetails extends Activity implements  OnClickListener
 						getList = myCommentsList;
 					}
 				}
+				else
+				{
+
+				}
 			}
 			catch(Exception e)
 			{
@@ -790,10 +788,14 @@ public class NewsDetails extends Activity implements  OnClickListener
 						myResponseBody = convertToString(inputStream);
 					}
 				}
+				else
+				{
+					DialogHelper.CreateNetworkAlert(NewsDetails.this,"Message","Cannot post your comment.");
+				}
 			}
 			catch(Exception e)
 			{
-				e.printStackTrace();
+				DialogHelper.CreateNetworkAlert(NewsDetails.this, "Message", "Cannot post your comment.");
 			}
 			return myResponseBody;
 		}
