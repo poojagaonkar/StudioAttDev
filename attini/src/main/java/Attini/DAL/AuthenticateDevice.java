@@ -16,7 +16,10 @@ import org.json.simple.parser.ParseException;
 
 import Attini.Model.ConnectionDetector;
 import Utility.AuthenticationInformation;
+import Utility.DialogHelper;
 import Utility.ProgressDialogFragment;
+import Utility.SessionManagement;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -28,10 +31,11 @@ import android.os.AsyncTask;
 
 import com.zevenpooja.attini.Details1;
 import com.zevenpooja.attini.Home;
+import com.zevenpooja.attini.Login;
 import com.zevenpooja.attini.NewsDetails;
 
 
-public class AuthenticateDevice extends AsyncTask<String, Void, Void>
+public class AuthenticateDevice extends AsyncTask<String, Void, Integer>
 {
 	public Context mContext;
 	String responseBody = "" ;
@@ -83,13 +87,13 @@ public class AuthenticateDevice extends AsyncTask<String, Void, Void>
 	}
 
 	@Override
-	protected Void doInBackground(String... params) 
+	protected Integer doInBackground(String... params)
 	{
 		// TODO Auto-generated method stub
 		String Url = params[0];
     	HttpResponse response =null;
 		String resultString = "";
-	
+		int statusCode = 0;
 		// Creating HTTP client
 				HttpClient httpClient = new DefaultHttpClient();
 				// Creating HTTP Post
@@ -140,11 +144,14 @@ public class AuthenticateDevice extends AsyncTask<String, Void, Void>
 								e.printStackTrace();
 							}
 								
-							//return responseBody;
-							
+
+							statusCode = 200;
 						}
 					}
-					
+					else if(response.getStatusLine().getStatusCode()== 400){
+						statusCode = 400;
+					}
+
 				}
 				catch (ClientProtocolException e) 
 				{
@@ -156,16 +163,21 @@ public class AuthenticateDevice extends AsyncTask<String, Void, Void>
 					// writing exception to log
 					e.printStackTrace();
 
+				} catch (Exception e) {
+					statusCode = 0;
 				}
-				//return  responseBody;
-				return null;
+		return  statusCode;
+
 	}
 
 	@Override
-	protected void onPostExecute(Void result) 
+	protected void onPostExecute(Integer result)
 	{
 		// TODO Auto-generated method stub
 		super.onPostExecute(result);
+		AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
+		alert.setMessage("Redirecting to Login");
+		alert.setTitle("Credential Error");
 		/*if(dialog!=null && dialog.isShowing())
 		{
 		dialog.dismiss();
@@ -175,21 +187,52 @@ public class AuthenticateDevice extends AsyncTask<String, Void, Void>
 		{
 			progDia.dismiss();
 		}*/
-		Intent myIntent = new Intent(mContext, Home.class);
-		
-		myIntent.putExtra("UsersName", usersname);
-		myIntent.putExtra("SPHostUrl",SPHostUrl);
-		myIntent.putExtra("EncodedAccountName", encodedAccountName);
-		myIntent.putExtra("DeviceAuthKey", deviceAuthKey);
-		myIntent.putExtra("AvatarUrl", avatarUrl);
-		myIntent.putExtra("LastName", lastName);
-		
-	
-		
-		
-		myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-		mContext.startActivity(myIntent);
-		mActivity.finish();
+		switch (result)
+		{
+			case 0:
+				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						SessionManagement session = new SessionManagement(mContext);
+						session.logoutUser();
+						Intent mIntent = new Intent(mContext, Login.class);
+						mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						mContext.startActivity(mIntent);
+						mActivity.finish();
+					}
+				});
+				alert.show();
+				break;
+			case 200:
+				Intent myIntent = new Intent(mContext, Home.class);
+
+				myIntent.putExtra("UsersName", usersname);
+				myIntent.putExtra("SPHostUrl",SPHostUrl);
+				myIntent.putExtra("EncodedAccountName", encodedAccountName);
+				myIntent.putExtra("DeviceAuthKey", deviceAuthKey);
+				myIntent.putExtra("AvatarUrl", avatarUrl);
+				myIntent.putExtra("LastName", lastName);
+
+				myIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				mContext.startActivity(myIntent);
+				mActivity.finish();
+				break;
+			case 400:
+				alert.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialogInterface, int i) {
+						SessionManagement session = new SessionManagement(mContext);
+						session.logoutUser();
+						Intent mIntent = new Intent(mContext, Login.class);
+						mIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+						mContext.startActivity(mIntent);
+						mActivity.finish();
+					}
+				});
+				alert.show();
+				break;
+		}
+
 	}
 	
 	private String convertToString(InputStream inputStream) 
