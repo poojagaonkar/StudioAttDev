@@ -12,7 +12,7 @@
     </array>
     <string-array name="nav_drawer_items">
         <item>Home</item>
-        <item>About us</item>
+        <item>About Us</item>
         <item>Most liked</item>
         <item>Most viewed</item>
         <item>Most commented</item>

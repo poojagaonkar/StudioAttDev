@@ -30,6 +30,7 @@ import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -51,12 +52,17 @@ import com.zeven.attini.R;
 
 
 @SuppressLint("ValidFragment")
-public class HomeFragment extends Fragment implements  com.origamilabs.library.views.StaggeredGridView.OnItemClickListener, SensorEventListener, OnItemClickListener 
+public class HomeFragment extends Fragment implements  com.origamilabs.library.views.StaggeredGridView.OnItemClickListener, OnItemClickListener
 {
 
 	TextView txtUsersName;
+	private TextView txtTitle;
+	private TextView txtBody;
+	private com.etsy.android.grid.StaggeredGridView mGridView;
+	private ListView newsList;
+	private ImageView imgThumbnail;
 	String encodedAccountName,SPHostUrl,refreshToken, realm, usersname,deviceAuthKey, avatarUrl, fullName;
-	ListView newsList;
+
 	LinearLayout layout1;
 	
 	private WaitProgressFragment refDialog ;
@@ -97,11 +103,10 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 	public static List<News> myNewsList = new ArrayList<News>();
 	 
 	public static String[] colorPallete = new String[] {"#1F1A17", "#62934D", "#F9B03F", "#7959BC", "#74B8DE", "#E65641", "#7CC8BB", "#D7CE5D", "#D6BE95", "#B694D1"};
-	private TextView txtTitle;
-	private TextView txtBody;
+
 	private TextView txtNewsView;
 	private TextView txtNewsComments, txtWelcome;
-	private ImageView imgThumbnail;
+
 	private HashMap<String, String> map ;
 	private View viewDate;
 	private ListView leftList, rightList;
@@ -119,7 +124,7 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 	private List<News> getListRight = new ArrayList<News>();
 	private ProgressDialogFragment prog;
 	private String mycolor;
-	private com.etsy.android.grid.StaggeredGridView mGridView;
+
 	private StaggeredAdapter stagAdaper;
 	private SensorManager sensorManager1;
 	protected MediaPlayer playSound;
@@ -150,52 +155,38 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 		// TODO Auto-generated constructor stub
 	}
 
+
 	@SuppressLint("ResourceAsColor")
 	@Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState)
 	{
-		
-        View vi = inflater.inflate(R.layout.fragment_home, container, false);
-		
-	/* Component initialization */ 
-        
-        txtTitle = (TextView)vi.findViewById(R.id.title);
+		View vi = inflater.inflate(R.layout.fragment_home,null);
+		txtTitle = (TextView)vi.findViewById(R.id.title);
 		txtBody = (TextView)vi.findViewById(R.id.desc);
-
-
 		imgThumbnail = (ImageView)vi.findViewById(R.id.icon);
 		newsList = (ListView)vi.findViewById(android.R.id.list);
-
 		mGridView =(com.etsy.android.grid.StaggeredGridView)vi.findViewById(R.id.staggeredGridView1);
-	
 
-		setHasOptionsMenu(true);
-		
-	// Check if orientation is Portrait	
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
 		{
 
 			itemsAdapter = new LazyAdapter(myContext,0, getList );
 			newsList.setAdapter(itemsAdapter);
 			itemsAdapter.notifyDataSetChanged();
-			newsList.setOnItemClickListener(new OnItemClickListener() 
+			newsList.setOnItemClickListener(new OnItemClickListener()
+			{
+				@Override
+				public void onItemClick(AdapterView<?> arg0,
+										View arg1, int position, long arg3)
 				{
-					
+					// TODO Auto-generated method stub
 
-					@Override
-					public void onItemClick(AdapterView<?> arg0,
-							View arg1, int position, long arg3) 
-					{
-						// TODO Auto-generated method stub
-						
-						sendData(position);
-						
-						
-					}
-				});
-			
-		
+					sendData(position);
+
+
+				}
+			});
 
 		}
 		// If orientation is landscape
@@ -209,31 +200,41 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 			stagAdaper.setNotifyOnChange(true);
 			mGridView.setOnItemClickListener(this);
 			mGridView.setSelector(R.drawable.list_selector1);
-			
+
 			int margin = 2;
-			
+
 			mGridView.setPadding(margin, 0, margin, 0);
-			
+
+
 		}
-		
+
 		return vi;
     }
 
-private void accelerometerMethod()
-{
-	sensorManager1 = (SensorManager)myContext.getSystemService(Context.SENSOR_SERVICE);
-    Sensor accelerometer = sensorManager1.getSensorList(Sensor.TYPE_ACCELEROMETER).get(0);
-    sensorManager1.registerListener(this, accelerometer,SensorManager.SENSOR_DELAY_GAME);
-}
-	//Item click listener for GridView
+
+
 	@Override
-	public void onItemClick(StaggeredGridView parent, View view, int position,
-			long id)
-	{
-		// TODO Auto-generated method stub
-	   sendData(position);	
-				
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+
+		ViewGroup viewGroup = (ViewGroup) getView();
+		viewGroup.removeAllViewsInLayout();
+		View view = onCreateView(getActivity().getLayoutInflater(), viewGroup, null);
+		viewGroup.addView(view);
 	}
+
+	@Override
+	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+		sendData(i);
+	}
+
+
+	@Override
+	public void onItemClick(StaggeredGridView parent, View view, int position, long id) {
+
+	}
+
+
 
 	@SuppressWarnings("deprecation")
 	public void sendData(int position)
@@ -244,7 +245,7 @@ private void accelerometerMethod()
 		myDialog.getWindow().setContentView(R.layout.openarticlewaitprogress);
 		myDialog.getWindow().setTitle("Loading..");
 		myDialog.getWindow().setLayout(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
-		 new  NewsDetails(myDialog);
+		new  NewsDetails(myDialog);
 
 			
 			
@@ -291,57 +292,6 @@ private void accelerometerMethod()
 			
 	}
 
-	
-
-
-	@Override
-	public void onConfigurationChanged(Configuration newConfig) 
-	{
-		// TODO Auto-generated method stub
-		super.onConfigurationChanged(newConfig);
-		if(newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
-		{
-			mGridView.setColumnCount(2);
-			mGridView.invalidate();
-			
-		}
-		else if(newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
-		{
-
-			mGridView.setColumnCount(3);
-			mGridView.invalidate();
-		}
-	}
-
-	@Override
-	public void onAccuracyChanged(Sensor sensor, int accuracy) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onSensorChanged(SensorEvent event) {
-		// TODO Auto-generated method stub
-		 int currentOrientation = getResources().getConfiguration().orientation;
-		    if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE){
-		        mGridView.setColumnCount(4);
-		        mGridView.invalidate();
-		    }else{
-		    	mGridView.setColumnCount(2);
-		    	mGridView.invalidate();
-		    }   
-	}
-
-	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) {
-		// TODO Auto-generated method stub
-		sendData(position);	
-	}
-
-	
-
-	
-	
 	
 
 

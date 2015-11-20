@@ -15,6 +15,7 @@ dependencies {
     compile files ('libs/lambdaj-2.4.jar')
     compile files ('libs/quick-json-2.2.3.jar')
 
+
 }
 
 android {
