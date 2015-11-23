@@ -263,31 +263,6 @@ public class Home extends Activity implements OnItemClickListener
 
 			}
 
-			Map<String, String> idToColorMap = new HashMap<String, String>();
-			int colorIndex = 0;
-			for (int i = 0; i < myFinalNewsList.size(); i++)
-			{
-				if (myFinalNewsList.size() > 1 && !idToColorMap.containsKey(myFinalNewsList.get(i).getNewsSourceId())) {
-					News currentNews = myFinalNewsList.get(i);
-					currentNews.setColor(colorPallete[colorIndex]);
-					idToColorMap.put(currentNews.getNewsSourceId(), colorPallete[colorIndex]);
-
-					for (int j = i + 1; j < myFinalNewsList.size(); j++) {
-						if (myFinalNewsList.get(j).getNewsSourceId().equals(currentNews.getNewsSourceId())) {
-							myFinalNewsList.get(j).setColor(colorPallete[colorIndex]);
-						}
-					}
-
-					if (++colorIndex == colorPallete.length) {
-						colorIndex = 0;
-					}
-				} else {
-					myFinalNewsList.get(0).setColor(colorPallete[0]);
-					idToColorMap.put(myFinalNewsList.get(0).getNewsSourceId(), colorPallete[0]);
-				}
-			}
-
-
 
 			ArrayList<String> isonColors = new ArrayList<String>();
 
@@ -494,6 +469,7 @@ public class Home extends Activity implements OnItemClickListener
 
 
 							myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags));
+
                             myTitleList.add(newsSourceTitle);
 						}
 					}
@@ -506,6 +482,29 @@ public class Home extends Activity implements OnItemClickListener
 			}
 			catch(Exception e)
 			{
+			}
+			Map<String, String> idToColorMap = new HashMap<String, String>();
+			int colorIndex = 0;
+			for (int i = 0; i < myNewsList.size(); i++)
+			{
+				if (myNewsList.size() > 1 && !idToColorMap.containsKey(myNewsList.get(i).getNewsSourceId())) {
+					News currentNews = myNewsList.get(i);
+					currentNews.setColor(colorPallete[colorIndex]);
+					idToColorMap.put(currentNews.getNewsSourceId(), colorPallete[colorIndex]);
+
+					for (int j = i + 1; j < myFinalNewsList.size(); j++) {
+						if (myNewsList.get(j).getNewsSourceId().equals(currentNews.getNewsSourceId())) {
+							myNewsList.get(j).setColor(colorPallete[colorIndex]);
+						}
+					}
+
+					if (++colorIndex == colorPallete.length) {
+						colorIndex = 0;
+					}
+				} else {
+					myNewsList.get(0).setColor(colorPallete[0]);
+					idToColorMap.put(myNewsList.get(0).getNewsSourceId(), colorPallete[0]);
+				}
 			}
 			return myNewsList;
 		}
@@ -522,7 +521,8 @@ public class Home extends Activity implements OnItemClickListener
 			if(refDialog!=null)
 			{
 				refDialog.dismiss();
-				Fragment mFragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),myFinalNewsList);
+
+				Fragment mFragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),result);
 			}
 
 		}
