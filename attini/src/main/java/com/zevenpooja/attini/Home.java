@@ -268,18 +268,19 @@ public class Home extends Activity implements OnItemClickListener
 
 			ArrayList<String> isonColors = new ArrayList<String>();
 
-			for(int j =0; j<myFinalNewsList.size(); j++)
+			for(int j =0; j < myFinalNewsList.size(); j++)
 			{	String colorz = myFinalNewsList.get(j).getColor();
 				isonColors.add(colorz);
+
 			}
 
 
 
-			//isonColors.add(0, "#FFFFFF");
-			//iconColors = isonColors.toArray(new String[isonColors.size()]);
-			TreeSet<String>mySet = new TreeSet<String>(isonColors);
+			isonColors.add(0, "#FFFFFF");
+			iconColors = isonColors.toArray(new String[isonColors.size()]);
+			/*TreeSet<String>mySet = new TreeSet<String>(isonColors);
 			iconColors =  mySet.toArray(new String[mySet.size()]);
-			iconColors = addFirst(iconColors, "#FFFFFF");
+			iconColors = addFirst(iconColors, "#FFFFFF");*/
 
 			navMenuTitles = myTitleList.toArray(new String[myTitleList.size()]);
 			//new GetNavDrawerItems().execute().get();
@@ -503,12 +504,12 @@ public class Home extends Activity implements OnItemClickListener
 			for (int i=0;i<myNewsList.size();i++)
 			{
 				News currentNews = myNewsList.get(i);
-				if (myNewsList.size() > 1 && !idToColorMap.containsKey(currentNews.getNewsSourceId())) {
+				if (myNewsList.size() > 0 && !idToColorMap.containsKey(currentNews.getNewsSourceId())) {
 
 					currentNews.setColor(colorPallete[colorIndex]);
 					idToColorMap.put(currentNews.getNewsSourceId(), colorPallete[colorIndex]);
 
-					for (int j = i + 1; j < myFinalNewsList.size(); j++) {
+					for (int j = i + 1; j < myNewsList.size(); j++) {
 						if (myNewsList.get(j).getNewsSourceId().equals(currentNews.getNewsSourceId())) {
 							myNewsList.get(j).setColor(colorPallete[colorIndex]);
 						}
