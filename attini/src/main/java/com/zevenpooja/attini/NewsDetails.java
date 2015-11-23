@@ -744,16 +744,16 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 
 
-	private class PostComment extends AsyncTask<String, String, String>
+	private class PostComment extends AsyncTask<String, String, Integer>
 	{
 
 	
 
 		@Override
-		protected String doInBackground(String... params)
+		protected Integer doInBackground(String... params)
 		{
 			// TODO Auto-generated method stub
-
+			int responseCode= 0;
 			HttpResponse response =null;
 			String resultString = "";
 			String myResponseBody = "" ;
@@ -786,18 +786,20 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 						InputStream inputStream = entity.getContent();
 						myResponseBody = convertToString(inputStream);
+						responseCode = 0;
 					}
 				}
 				else
 				{
-					DialogHelper.CreateNetworkAlert(NewsDetails.this,"Message","Cannot post your comment.");
+					responseCode = 1;
 				}
 			}
 			catch(Exception e)
 			{
-				DialogHelper.CreateNetworkAlert(NewsDetails.this, "Message", "Cannot post your comment.");
+				e.printStackTrace();
+				responseCode = 1;
 			}
-			return myResponseBody;
+			return responseCode;
 		}
 
 		private String convertToString(InputStream inputStream) 
@@ -817,6 +819,20 @@ public class NewsDetails extends Activity implements  OnClickListener
 			return string.toString();
 		}
 
+		@Override
+		protected void onPostExecute(Integer code) {
+			super.onPostExecute(code);
+			switch (code)
+			{
+				case 0:
+					Toast.makeText(NewsDetails.this, "Comment posted",Toast.LENGTH_LONG).show();
+					break;
+				case 1:
+					DialogHelper.CreateNetworkAlert(NewsDetails.this, "Error", "Could not post comment");
+
+					break;
+			}
+		}
 	}
 	private class PostLikes extends AsyncTask<String, String, String>
 	{

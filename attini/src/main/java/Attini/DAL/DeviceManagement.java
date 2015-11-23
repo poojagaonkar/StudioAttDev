@@ -39,7 +39,7 @@ public class DeviceManagement
 		// Creating HTTP client
 				HttpClient httpClient = new DefaultHttpClient();
 				// Creating HTTP Post
-				HttpPost httpPost = new HttpPost("https://www.attinicomms.com/api/RegisterDevice");
+				HttpPost httpPost = new HttpPost(EndPoints.RegisterDevice);
 
 				// Building post parameters
 				// key and value pair
@@ -100,7 +100,7 @@ public class DeviceManagement
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		String authorizationContentString = "https://www.attinicomms.com/api/AuthenticateDevice" + params;
+		String authorizationContentString = EndPoints.AuthenticateDevice + params;
 		
 		
 		HttpGet httpRequest = new HttpGet(authorizationContentString);

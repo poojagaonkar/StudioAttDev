@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +39,7 @@ import Utility.CommentsComparator;
 import Utility.DialogHelper;
 import Utility.ListViewInScrollViewHeight;
 import Utility.MyComparator;
+import Utility.MyList;
 import Utility.ProgressDialogFragment;
 import Utility.SessionManagement;
 //import Utility.StorageHelper;
@@ -266,16 +268,12 @@ public class Home extends Activity implements OnItemClickListener
 
 			ArrayList<String> isonColors = new ArrayList<String>();
 
-			for(int j =0; j<myFinalNewsList.size(); j++)
-			{
-				String colorz = myFinalNewsList.get(j).getColor();
-				isonColors.add(colorz);
-			}
 
-			TreeSet<String> mySet =  new TreeSet<String>(isonColors);
+
+
+			//isonColors.add(0, "#FFFFFF");
 			//iconColors = isonColors.toArray(new String[isonColors.size()]);
-
-		//	iconColors = new HashSet<String>(Arrays.asList(iconColors)).toArray(new String[0]);
+			TreeSet<String>mySet = new TreeSet<String>(isonColors);
 			iconColors =  mySet.toArray(new String[mySet.size()]);
 			iconColors = addFirst(iconColors, "#FFFFFF");
 
@@ -483,12 +481,26 @@ public class Home extends Activity implements OnItemClickListener
 			catch(Exception e)
 			{
 			}
+			/**/
+			/*int colorIndex = 0;
+			Map<String, String> idToColorMap = new HashMap<String, String>();
+			for (News news : myFinalNewsList) {
+				String key = news.getNewsSourceId();
+				if (idToColorMap.get(key) == null) {
+					news.setColor(colorPallete[colorIndex]);
+					idToColorMap.put(key, colorPallete[colorIndex]);
+				}
+
+			}*/
+
+
 			Map<String, String> idToColorMap = new HashMap<String, String>();
 			int colorIndex = 0;
-			for (int i = 0; i < myNewsList.size(); i++)
+			for (int i=0;i<myNewsList.size();i++)
 			{
-				if (myNewsList.size() > 1 && !idToColorMap.containsKey(myNewsList.get(i).getNewsSourceId())) {
-					News currentNews = myNewsList.get(i);
+				News currentNews = myNewsList.get(i);
+				if (myNewsList.size() > 1 && !idToColorMap.containsKey(currentNews.getNewsSourceId())) {
+
 					currentNews.setColor(colorPallete[colorIndex]);
 					idToColorMap.put(currentNews.getNewsSourceId(), colorPallete[colorIndex]);
 

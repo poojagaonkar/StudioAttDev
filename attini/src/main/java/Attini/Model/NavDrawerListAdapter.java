@@ -50,8 +50,14 @@ public class NavDrawerListAdapter extends BaseAdapter
         View imgIcon = (View) convertView.findViewById(R.id.viewIconColor);
         TextView txtTitle = (TextView) convertView.findViewById(R.id.title);
         TextView txtCount = (TextView) convertView.findViewById(R.id.txtCounter);
-          
-        imgIcon.setBackgroundColor(Color.parseColor(navDrawerItems.get(position).getIcon()));        
+
+        try {
+            imgIcon.setBackgroundColor(Color.parseColor(navDrawerItems.get(position).getIcon()));
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         txtTitle.setText(navDrawerItems.get(position).getTitle());
          
         // displaying count
