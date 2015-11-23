@@ -268,6 +268,10 @@ public class Home extends Activity implements OnItemClickListener
 
 			ArrayList<String> isonColors = new ArrayList<String>();
 
+			for(int j =0; j<myFinalNewsList.size(); j++)
+			{	String colorz = myFinalNewsList.get(j).getColor();
+				isonColors.add(colorz);
+			}
 
 
 
