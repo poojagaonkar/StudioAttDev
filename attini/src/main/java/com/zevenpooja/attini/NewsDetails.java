@@ -398,7 +398,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 		String items;
 
-		String getRequestForComments = EndPoints.GetCommentsUrl+"?articleGuid="+articleGuid+"&deviceAuthKey="+deviceAuthKey+"&encodedAccountName="+encodedAccountName+"&spHostUrl="+spHostUrl;
+		String getRequestForComments = EndPoints.GetCommentsUrl+"?articleId="+newsId+"&deviceAuthKey="+deviceAuthKey+"&encodedAccountName="+encodedAccountName+"&spHostUrl="+spHostUrl;
 		new FetchItems().execute(getRequestForComments);
 
 
@@ -597,7 +597,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 		
 
 		@Override
-		protected Void doInBackground(String... params) 
+		protected Void doInBackground(String... params)
 		{
 			// TODO Auto-generated method stub
 			HttpResponse response =null;

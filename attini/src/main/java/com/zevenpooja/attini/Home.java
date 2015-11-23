@@ -464,7 +464,7 @@ public class Home extends Activity implements OnItemClickListener
 							String publishedDate = menuObject.getString("PublishedDate");
 							String articleGuid = menuObject.getString("ArticleGuid");
 							String newsSourceId = menuObject.getString("NewsSourceId");
-							String newsId = menuObject.getString("ArticleSPID");
+							String newsId = menuObject.getString("Id");
 							String publisherName = menuObject.getString("AuthorDisplayName");
 							String newsSourceTitle = menuObject.getString("NewsSourceTitle");
 							String newsLikes = menuObject.getString("NumberOfLikes");
