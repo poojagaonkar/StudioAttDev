@@ -9,6 +9,7 @@ import org.json.JSONArray;
 
 import Attini.DAL.EndPoints;
 import Attini.Model.ConnectionDetector;
+import Utility.HomeLandAdapter;
 import Utility.LazyAdapter;
 import Utility.ProgressDialogFragment;
 import Utility.StaggeredAdapter;
@@ -30,6 +31,8 @@ import android.hardware.SensorManager;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.text.Layout;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -128,8 +131,10 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 	private StaggeredAdapter stagAdaper;
 	private SensorManager sensorManager1;
 	protected MediaPlayer playSound;
-    
-    @SuppressLint("ValidFragment")
+	private StaggeredGridLayoutManager gaggeredGridLayoutManager;
+	private RecyclerView recyclerView;
+
+	@SuppressLint("ValidFragment")
 
 
 	public HomeFragment(String sPHostUrl2, String encodedAccountName2,
@@ -166,7 +171,8 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 		txtBody = (TextView)vi.findViewById(R.id.desc);
 		imgThumbnail = (ImageView)vi.findViewById(R.id.icon);
 		newsList = (ListView)vi.findViewById(android.R.id.list);
-		mGridView =(com.etsy.android.grid.StaggeredGridView)vi.findViewById(R.id.staggeredGridView1);
+		recyclerView = (RecyclerView)vi.findViewById(R.id.recycler_view);
+		//mGridView =(com.etsy.android.grid.StaggeredGridView)vi.findViewById(R.id.staggeredGridView1);
 
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
 		{
@@ -193,17 +199,24 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 		else
 		{
 
-			mGridView.setFastScrollEnabled(false);
+			/*mGridView.setFastScrollEnabled(false);
 			stagAdaper = new StaggeredAdapter(myContext, android.R.layout.simple_list_item_1, getList, HomeFragment.this);
 			mGridView.setAdapter(stagAdaper);
 			stagAdaper.notifyDataSetChanged();
 			stagAdaper.setNotifyOnChange(true);
 			mGridView.setOnItemClickListener(this);
 			mGridView.setSelector(R.drawable.list_selector1);
-
 			int margin = 2;
+			mGridView.setPadding(margin, 0, margin, 0);*/
 
-			mGridView.setPadding(margin, 0, margin, 0);
+
+			recyclerView.setHasFixedSize(true);
+			HomeLandAdapter rcAdapter = new HomeLandAdapter(myContext, getList,HomeFragment.this);
+			gaggeredGridLayoutManager = new StaggeredGridLayoutManager(3, 1);
+			recyclerView.setLayoutManager(gaggeredGridLayoutManager);
+			recyclerView.setAdapter(rcAdapter);
+
+
 
 
 		}

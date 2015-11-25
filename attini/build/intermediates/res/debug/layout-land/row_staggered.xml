@@ -1,11 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<!--<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:ignore="DuplicateIds"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:foreground="@drawable/foreground_selector"
-    android:id="@+id/layoutOfStagGridView">
+    android:id="@+id/layoutOfStagGridView">-->
+<android.support.v7.widget.CardView
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    card_view:cardUseCompatPadding="true"
+    card_view:cardCornerRadius="8dp"
+    android:layout_marginBottom="16dp">
 
 
 <LinearLayout
@@ -163,4 +172,4 @@
    </LinearLayout>
    
 </LinearLayout>
-</FrameLayout><!-- From: file:/F:/My%20Stuff/Imp/NewAttini/attini/src/main/res/layout-land/row_staggered.xml -->
+</android.support.v7.widget.CardView><!-- From: file:/F:/My%20Stuff/Imp/NewAttini/attini/src/main/res/layout-land/row_staggered.xml -->

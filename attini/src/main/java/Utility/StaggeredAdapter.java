@@ -157,7 +157,7 @@ public class StaggeredAdapter extends ArrayAdapter<String>
 	       viewHolder.thumb_image=(ScaleImageView)convertView.findViewById(R.id.imageView1); // thumb image
 	       viewHolder.pubDate = (TextView)convertView.findViewById(R.id.txtPubDate);
 	       viewHolder.viewdate = (View)convertView.findViewById(R.id.viewdate);
-	       viewHolder.layGridLayout = (FrameLayout)convertView.findViewById(R.id.layoutOfStagGridView);
+	      // viewHolder.layGridLayout = (FrameLayout)convertView.findViewById(R.id.layoutOfStagGridView);
 	       viewHolder.txtComms = (TextView)convertView.findViewById(R.id.txtcomm);
 	       viewHolder.txtViews = (TextView)convertView.findViewById(R.id.txtview);
 	       viewHolder.txtLikes = (TextView)convertView.findViewById(R.id.txtlike);
@@ -242,7 +242,7 @@ public class StaggeredAdapter extends ArrayAdapter<String>
 		
 		//convertView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 400));
 		mLoader.DisplayImage(bitmapUrl, viewHolder.thumb_image);
-		viewHolder.layGridLayout.setOnClickListener(new View.OnClickListener() 
+		/*viewHolder.layGridLayout.setOnClickListener(new View.OnClickListener()
 		{
 			
 			@Override
@@ -254,7 +254,7 @@ public class StaggeredAdapter extends ArrayAdapter<String>
 				playSound = MediaPlayer.create(mContext, R.raw.buttonclicksound);
 				playSound.start();
 			}
-		});
+		});*/
 		return convertView;
 		}
 		
