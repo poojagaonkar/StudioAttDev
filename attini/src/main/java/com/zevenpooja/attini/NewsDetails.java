@@ -53,6 +53,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
@@ -304,6 +305,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 		bodyText = CSS_URI + "<div>" + newsBody+ "</div>";
 		bodyText = HtmHelper.BuildHtml(bodyText);
+
 		txtNewsBody.loadData(bodyText, "text/html; charset=utf-8", "UTF-8");
 
 		/*webSettings.setJavaScriptEnabled(true);
@@ -348,6 +350,19 @@ public class NewsDetails extends Activity implements  OnClickListener
 		 Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
 	      txtMainTitle.setTypeface(typaFace);
 
+	}
+
+	@Override
+	protected void onPause() {
+		super.onPause();
+		try {
+			Class.forName("android.webkit.WebView")
+					.getMethod("onPause", (Class[]) null)
+					.invoke(txtNewsBody, (Object[]) null);
+
+		} catch(Exception cnfe) {
+
+		}
 	}
 
 	// For Tags
