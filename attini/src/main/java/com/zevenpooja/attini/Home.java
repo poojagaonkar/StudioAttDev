@@ -710,7 +710,7 @@ public class Home extends Activity implements OnItemClickListener
 		}
 		else if(position==0 && (navDrawerItems.get(position).getTitle()=="All News"))
 		{
-
+			companyNewsList = myFinalNewsList;
 			fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),myFinalNewsList);
 		}
 
@@ -783,7 +783,7 @@ public class Home extends Activity implements OnItemClickListener
 	@Override
 	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) 
 	{
-		companyNewsList = myFinalNewsList;
+		//companyNewsList = myFinalNewsList;
 		// TODO Auto-generated method stub
 		Fragment fragment = null;
 		switch (position)
