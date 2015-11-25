@@ -27,7 +27,7 @@
         android:theme="@style/MyHoloLightTheme" >
         <activity
             android:name="com.zevenpooja.attini.Login"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,12 +37,12 @@
         </activity>
         <activity
             android:name="com.zevenpooja.attini.NewsDetails"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.zevenpooja.attini.Details1"
-            android:configChanges="orientation|screenSize"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/app_name" >
         </activity>
         <activity

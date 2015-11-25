@@ -9,7 +9,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -31,6 +30,7 @@ import Attini.Model.ConnectionDetector;
 import Utility.CommentsAdapter;
 import Utility.DialogHelper;
 import Utility.HorizontalListView;
+import Utility.HtmHelper;
 import Utility.ListViewInScrollViewHeight;
 import Utility.WaitProgressFragment;
 import android.annotation.SuppressLint;
@@ -38,7 +38,6 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -49,19 +48,15 @@ import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
-import android.webkit.WebSettings.ZoomDensity;
 import android.webkit.WebView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -118,8 +113,10 @@ public class NewsDetails extends Activity implements  OnClickListener
 	private ProgressDialog pd;
 	private ProgressBar progPostComments;
 	private boolean canContinue;
+	public String CSS_URI = "";
 	private MediaPlayer playSound;
 	ArrayList<HashMap<String, String>> getList = new ArrayList<HashMap<String,String>>();
+	private String bodyText;
 
 
 	public NewsDetails(ProgressDialog myDialog) 
@@ -299,17 +296,23 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 
 		//Add Body
-		// txtNewsBody.setText(Html.fromHtml(newsBody).toString());
-
 		WebSettings webSettings =  txtNewsBody.getSettings();
-
 		webSettings.setJavaScriptEnabled(true);
+		webSettings.setDefaultFontSize(16);
+
+		webSettings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
+
+		bodyText = CSS_URI + "<div>" + newsBody+ "</div>";
+		bodyText = HtmHelper.BuildHtml(bodyText);
+		txtNewsBody.loadData(bodyText, "text/html; charset=utf-8", "UTF-8");
+
+		/*webSettings.setJavaScriptEnabled(true);
 		webSettings.setDefaultFontSize(12);
 		webSettings.setTextZoom(180);
 		webSettings.setSupportZoom(true);
 		webSettings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
 		txtNewsBody.setInitialScale(100);
-		txtNewsBody.loadDataWithBaseURL(null,newsBody, "text/html", "utf-8",null);
+		txtNewsBody.loadDataWithBaseURL(null,newsBody, "text/html", "utf-8",null);*/
 		
 
 		if(newsBody.contains(newsImage))

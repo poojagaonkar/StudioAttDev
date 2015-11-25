@@ -98,7 +98,7 @@ ADDED from AndroidManifest.xml:47:10
 	android:label
 		ADDED from AndroidManifest.xml:49:13
 	android:configChanges
-		ADDED from AndroidManifest.xml:50:13
+		ADDED from AndroidManifest.xml:50:14
 	android:name
 		ADDED from AndroidManifest.xml:48:13
 activity#com.zevenpooja.attini.Home

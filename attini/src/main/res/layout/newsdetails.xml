@@ -211,11 +211,11 @@
     android:padding="10dp">
             <WebView
                 android:id="@+id/txtNewsBody"
-                android:layout_width="wrap_content"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="20dp"
-                android:padding="20dp" />
+                 />
 </LinearLayout>
             <LinearLayout
                 android:layout_width="wrap_content"
