@@ -116,12 +116,12 @@ public class HomeLandAdapter extends  RecyclerView.Adapter
         myDate = song.getPublishedDate();
 
         final String OLD_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-        final String NEW_FORMAT = "MMMM dd, yy";
+        final String NEW_FORMAT = "MMM dd, yy";
 
         String newDate ="";
 
         SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yy");
+        SimpleDateFormat myFormat = new SimpleDateFormat("MMMM dd, yy");
 
 
         try {

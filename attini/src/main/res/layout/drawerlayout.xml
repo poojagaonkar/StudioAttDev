@@ -52,14 +52,14 @@
     </LinearLayout>
  
     <!-- Listview to display slider menu -->
-  
-    <ListView
-        android:id="@+id/list_slidermenu"
-        android:layout_width="240dp"
-        android:layout_height="wrap_content"
-        android:choiceMode="singleChoice"
-		android:listSelector="@drawable/list_selector"
-        android:background="#1290BD"/>
+
+             <ListView
+                 android:id="@+id/list_slidermenu"
+                 android:layout_width="240dp"
+                 android:layout_height="wrap_content"
+                 android:choiceMode="singleChoice"
+                 android:listSelector="@drawable/list_selector"
+                 android:background="#1290BD"/>
     
         
         

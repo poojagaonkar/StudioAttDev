@@ -179,6 +179,7 @@ public class Home extends Activity implements OnItemClickListener
 	private List<News> updatedList;
 	private boolean canContinue  = true;
     ArrayList<String> myTitleList = new ArrayList<String>();
+	private boolean isSelected =true;
 
 
 	@Override
@@ -623,13 +624,14 @@ public class Home extends Activity implements OnItemClickListener
 	private class SlideMenuClickListener implements
 	ListView.OnItemClickListener
 	{
+
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
 				long id)
 		{
 			// display view for selected nav drawer item
 
-
+		
 			displayView(position);
 		}
 	}
@@ -720,12 +722,14 @@ public class Home extends Activity implements OnItemClickListener
 		if (fragment != null) {
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
-			.replace(R.id.frame_container, fragment).commit();
+					.replace(R.id.frame_container, fragment).commit();
 
 			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
 			mDrawerList.setSelection(position);
-			//setTitle(navMenuTitles[position]);
+			mDrawerList.setBackgroundColor(Color.parseColor("#1290BD"));
+			isSelected =true;
+			//setTitle(catagoryList[position]);
 			mDrawerLayout.closeDrawer(mainLinearLayout);
 		} else {
 			// error in creating fragment

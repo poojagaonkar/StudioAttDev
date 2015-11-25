@@ -209,7 +209,7 @@ public class LazyAdapter extends ArrayAdapter<String>
         //Set date 2015-10-05T14:30:00
 
         SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yy");
+        SimpleDateFormat myFormat = new SimpleDateFormat("MMMM dd, yy");
 
 
         try {
