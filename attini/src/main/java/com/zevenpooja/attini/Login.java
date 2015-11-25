@@ -369,7 +369,7 @@ public class Login extends Activity
 				try {
 					if(result == "" || result.matches("InvalidCredentials"))
 					{
-						DialogHelper.CreateNetworkAlert(mActivity, "Error", "Invalid credentials");
+						DialogHelper.CreateNetworkAlert(mActivity, "Error", "Please enter valid email");
 						dialog.dismiss();
 
 					}

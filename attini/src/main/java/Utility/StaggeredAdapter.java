@@ -5,6 +5,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -226,20 +227,17 @@ public class StaggeredAdapter extends ArrayAdapter<String>
 			 final String NEW_FORMAT = "MMMM dd, yy";
 			 
 			 String newDate ="";
-			 
-			 SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-			 try
-			 {
-				Date d = sdf.parse(myDate);
-				sdf.applyLocalizedPattern(NEW_FORMAT);
-				newDate = sdf.format(d);
-				viewHolder.pubDate.setText(newDate);
-			} 
-			 catch (java.text.ParseException e)
-			 {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}		
+
+			SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yy");
+
+
+			try {
+				viewHolder.pubDate.setText(myFormat.format(fromUser.parse(song.getPublishedDate())));
+			} catch (ParseException e) {
+
+				viewHolder.pubDate.setText("");
+			}
 	     
 		
 		//convertView.setLayoutParams(new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, 400));
