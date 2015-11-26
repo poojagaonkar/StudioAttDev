@@ -234,6 +234,7 @@ public class LazyAdapter extends ArrayAdapter<String>
         viewHolder.description.setText(mydescription);
 
 
+
         // Bitmap bitmap = DownloadImage(song.get(Home.THUMBNAILPATH));
 
         if (!bitmapUrl.isEmpty() || bitmapUrl != null) {

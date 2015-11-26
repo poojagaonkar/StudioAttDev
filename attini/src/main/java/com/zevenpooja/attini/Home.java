@@ -630,8 +630,8 @@ public class Home extends Activity implements OnItemClickListener
 				long id)
 		{
 			// display view for selected nav drawer item
+			view.setSelected(true);
 
-		
 			displayView(position);
 		}
 	}
@@ -727,8 +727,7 @@ public class Home extends Activity implements OnItemClickListener
 			// update selected item and title, then close the drawer
 			mDrawerList.setItemChecked(position, true);
 			mDrawerList.setSelection(position);
-			mDrawerList.setBackgroundColor(Color.parseColor("#1290BD"));
-			isSelected =true;
+
 			//setTitle(catagoryList[position]);
 			mDrawerLayout.closeDrawer(mainLinearLayout);
 		} else {
