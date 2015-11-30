@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:gravity="end"
             android:layout_marginLeft="20dp"
-            android:text=" "
+            android:text="date"
             android:textSize="10sp"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="#97999C" />

@@ -40,6 +40,7 @@ import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -48,6 +49,7 @@ import android.graphics.Typeface;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -118,6 +120,8 @@ public class NewsDetails extends Activity implements  OnClickListener
 	private MediaPlayer playSound;
 	ArrayList<HashMap<String, String>> getList = new ArrayList<HashMap<String,String>>();
 	private String bodyText;
+	private SharedPreferences prefs;
+	private SharedPreferences.Editor editor;
 
 
 	public NewsDetails(ProgressDialog myDialog) 
@@ -195,6 +199,9 @@ public class NewsDetails extends Activity implements  OnClickListener
 		viewDateView = (View)findViewById(R.id.viewDate);
 		viewNewsCat = (View)findViewById(R.id.viewNewsCatagory);
 
+
+		prefs  = PreferenceManager.getDefaultSharedPreferences(NewsDetails.this);
+		editor = prefs.edit();
 
 
 		//Make comments list non clickable
@@ -344,7 +351,15 @@ public class NewsDetails extends Activity implements  OnClickListener
 		
 	
 		btnAddComms.setOnClickListener(this);
-		btnPostLikes.setOnClickListener(this);
+		if(prefs.getBoolean("IsLiked",false) == true)
+		{
+			btnPostLikes.setImageResource(R.drawable.like_button_selected);
+			btnPostLikes.setPadding(0, 3, 0, 0);
+			btnPostLikes.setEnabled(false);
+		}
+		else {
+			btnPostLikes.setOnClickListener(this);
+		}
 		btnBackArticle.setOnClickListener(this);
 		
 		 Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
@@ -890,19 +905,40 @@ public class NewsDetails extends Activity implements  OnClickListener
 					{
 
 						InputStream inputStream = entity.getContent();
-						
+						resultString = "Success";
+
 					}
+				}
+				else
+				{
+					resultString = "Fail";
 				}
 			}
 			catch(Exception e)
 			{
 				e.printStackTrace();
 			}
-			return null;
+			return resultString;
 		}
 
-		
+		@Override
+		protected void onPostExecute(String s) {
+			super.onPostExecute(s);
+			if(s.matches("Success")) {
+				editor.putBoolean("IsLiked", true);
 
+
+				editor.commit();
+				btnPostLikes.setImageResource(R.drawable.like_button_selected);
+				btnPostLikes.setPadding(0, 3, 0, 0);
+				btnPostLikes.setEnabled(false);
+			}
+			else
+			{
+				Toast.makeText(NewsDetails.this,"Something went wrong",Toast.LENGTH_LONG).show();
+			}
+
+		}
 	}
 
 
@@ -917,9 +953,6 @@ public class NewsDetails extends Activity implements  OnClickListener
 		{
 		case R.id.btnAddLikes:
 			
-			btnPostLikes.setImageResource(R.drawable.like_button_selected);
-			btnPostLikes.setPadding(0, 3, 0, 0);
-			btnPostLikes.setEnabled(false);
 
 			String postLikeUrl  = EndPoints.UpdateLikesUrl;
 				int likes = Integer.parseInt(newsLikes);

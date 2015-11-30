@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -127,15 +128,17 @@ public class CommentsAdapter extends BaseAdapter
 		//Set date
 		String myDate = song.get(NewsDetails.DATEUPDATED);
 
-		final String OLD_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'";
-		final String NEW_FORMAT = "HH:mm, MMMM dd, yyyy";
+		final String OLD_FORMAT = "yyyy-MM-dd'T'HH:mm:ss";
+		final String NEW_FORMAT = "kk:mm, dd MMMM, yyyy";
 
 		String newDate ="";
 
 		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
 		try
 		{
+			sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
 			Date d = sdf.parse(myDate);
+			sdf.setTimeZone(TimeZone.getDefault());
 			sdf.applyLocalizedPattern(NEW_FORMAT);
 			newDate = sdf.format(d);
 			viewHolder.pubDate.setText(newDate);

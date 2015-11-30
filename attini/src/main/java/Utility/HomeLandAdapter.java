@@ -121,7 +121,7 @@ public class HomeLandAdapter extends  RecyclerView.Adapter
         String newDate ="";
 
         SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-        SimpleDateFormat myFormat = new SimpleDateFormat("MMMM dd, yy");
+        SimpleDateFormat myFormat = new SimpleDateFormat("dd MMMM, yy");
 
 
         try {

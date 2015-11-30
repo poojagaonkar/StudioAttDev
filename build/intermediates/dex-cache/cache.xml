@@ -2,32 +2,46 @@
 <items version="2" >
 
     <item
+        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\NewAttini\staggeredGridViewmaster\unspecified\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="64c78127d3ac3c67161f0ad0dafb6af1818683c7">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\classes-2caadfc4402b34beafbc01b9f72a8c6ecbbe1ca9.jar" />
+    </item>
+    <item
+        jar="F:\My Stuff\Imp\NewAttini\attini\libs\quick-json-1.0.2.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="830b382736f836862634a1898f9cf0ac6186463f">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\quick-json-1.0.2-63643e42e8d32f83bbb2be954ea9b1c5f7698996.jar" />
+    </item>
+    <item
+        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\classes-20b376c0efe5c85d1b1f89ca524fcacec069168c.jar" />
+    </item>
+    <item
+        jar="F:\My Stuff\Imp\NewAttini\attini\libs\gson-1.7.1-javadoc.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="839e230dab7c67bce778bc49b2f75967d7b8c81e">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\gson-1.7.1-javadoc-8042c79a18154733a43438e229e47743a5bc804a.jar" />
+    </item>
+    <item
         jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\cardview-v7\21.0.3\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="00b0b7233e1ec64acebfac40d4983d32d4712426">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-1acc53285bba4433e45c30cf5279d3ca8ca21aa7.jar" />
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\classes-1acc53285bba4433e45c30cf5279d3ca8ca21aa7.jar" />
     </item>
     <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
+        jar="C:\Users\PoojaG\AppData\Local\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-21cfb9c2a1432b4e7072395626ee59a76113bfff.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\json-simple-1.1.1.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\json-simple-1.1.1-6b9bd095fdf720847da7e5b9ee9c02699294fd21.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\lambdaj-2.4.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="278a666518cb0c1ade2934a4a2b06984ae90672a">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\lambdaj-2.4-f471dd6130604bca04efd7b500f9e9f8bc59e4d0.jar" />
+        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\support-annotations-22.2.0-daad0f7a624621306acdc01ea14ab273a0a082fc.jar" />
     </item>
     <item
         jar="F:\My Stuff\Imp\NewAttini\attini\libs\jackson-core-2.2.3.jar"
@@ -37,25 +51,11 @@
         <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\jackson-core-2.2.3-944122fdc9c3f09dc5a364927bfd9b60a9867815.jar" />
     </item>
     <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\jackson-databind-2.2.3.jar"
+        jar="F:\My Stuff\Imp\NewAttini\attini\libs\lambdaj-2.4.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="03ae380888029daefb91d3ecdca3a37d8cb92bc9">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\jackson-databind-2.2.3-7ecbd15ad6c7baecf9fb911fdc6ed61cb4fc0726.jar" />
-    </item>
-    <item
-        jar="C:\Users\PoojaG\AppData\Local\Android\android-sdk\extras\android\m2repository\com\android\support\support-annotations\22.2.0\support-annotations-22.2.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="66b42a1f3eb7676070b7ef7f14b603483aecbee1">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\support-annotations-22.2.0-daad0f7a624621306acdc01ea14ab273a0a082fc.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\21.0.3\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="4b8945fc23a7461c6fdde15753456d64b0a9358b">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-20b376c0efe5c85d1b1f89ca524fcacec069168c.jar" />
+        sha1="278a666518cb0c1ade2934a4a2b06984ae90672a">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\lambdaj-2.4-f471dd6130604bca04efd7b500f9e9f8bc59e4d0.jar" />
     </item>
     <item
         jar="F:\My Stuff\Imp\NewAttini\attini\libs\jsoup-1.6.0.jar"
@@ -65,18 +65,18 @@
         <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\jsoup-1.6.0-09b402ecd432a54fd78ec974c64ab71a9dbad194.jar" />
     </item>
     <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\quick-json-1.0.2.jar"
+        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.0\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="830b382736f836862634a1898f9cf0ac6186463f">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\quick-json-1.0.2-63643e42e8d32f83bbb2be954ea9b1c5f7698996.jar" />
+        sha1="73753982da6bde518f3a4c6b372749981d14d1a0">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\classes-21cfb9c2a1432b4e7072395626ee59a76113bfff.jar" />
     </item>
     <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\NewAttini\main\unspecified\jars\classes.jar"
+        jar="F:\My Stuff\Imp\NewAttini\attini\libs\jackson-databind-2.2.3.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="9a2d7599aa35cbdaee3079f9e670d24ace42d022">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-b73ab33bed783d071397d230fd26c5ccae45af4a.jar" />
+        sha1="03ae380888029daefb91d3ecdca3a37d8cb92bc9">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\jackson-databind-2.2.3-7ecbd15ad6c7baecf9fb911fdc6ed61cb4fc0726.jar" />
     </item>
     <item
         jar="F:\My Stuff\Imp\NewAttini\attini\libs\guava-17.0.jar"
@@ -86,25 +86,25 @@
         <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\guava-17.0-4b59c878a1341ea72ee1b40ec61dec3d8b692c1a.jar" />
     </item>
     <item
-        jar="C:\Users\PoojaG\AppData\Local\Android\android-sdk\extras\android\m2repository\com\android\support\support-v4\18.0.0\support-v4-18.0.0.jar"
+        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\NewAttini\main\unspecified\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="44ec51e9d395a47aab135e5e1b556c0007442156">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\support-v4-18.0.0-852daea54331794e470c5b5b9f40dee6f8f7847e.jar" />
+        sha1="9a2d7599aa35cbdaee3079f9e670d24ace42d022">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\classes-b73ab33bed783d071397d230fd26c5ccae45af4a.jar" />
     </item>
     <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\libs\gson-1.7.1-javadoc.jar"
+        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="839e230dab7c67bce778bc49b2f75967d7b8c81e">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\gson-1.7.1-javadoc-8042c79a18154733a43438e229e47743a5bc804a.jar" />
+        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\classes-06e33e4ae2317bb26bbcbd16ed18fda25c73610e.jar" />
     </item>
     <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\NewAttini\staggeredGridViewmaster\unspecified\jars\classes.jar"
+        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="64c78127d3ac3c67161f0ad0dafb6af1818683c7">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-2caadfc4402b34beafbc01b9f72a8c6ecbbe1ca9.jar" />
+        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\internal_impl-22.2.0-ae3197004b9c9cf847c4ef457d0d62d9ad9a77d5.jar" />
     </item>
     <item
         jar="F:\My Stuff\Imp\NewAttini\attini\libs\jackson-annotations-2.2.3.jar"
@@ -114,18 +114,11 @@
         <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\jackson-annotations-2.2.3-fc9f7b2e03eeb00aa1c1d80d0d90f8029cb25baf.jar" />
     </item>
     <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\libs\internal_impl-22.2.0.jar"
+        jar="F:\My Stuff\Imp\NewAttini\attini\libs\json-simple-1.1.1.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="57f2ab85c164ff1676ec64dee787981c046fab79">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\internal_impl-22.2.0-ae3197004b9c9cf847c4ef457d0d62d9ad9a77d5.jar" />
-    </item>
-    <item
-        jar="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\exploded-aar\com.android.support\support-v4\22.2.0\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="1ee588ff2c4daf7b97c1cbf922a6c7f027285c2f">
-        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\debug\classes-06e33e4ae2317bb26bbcbd16ed18fda25c73610e.jar" />
+        sha1="5d6f9b6a9ddca2a28c0216cc44efb2e20d9c23b5">
+        <dex dex="F:\My Stuff\Imp\NewAttini\attini\build\intermediates\pre-dexed\release\json-simple-1.1.1-6b9bd095fdf720847da7e5b9ee9c02699294fd21.jar" />
     </item>
 
 </items>
