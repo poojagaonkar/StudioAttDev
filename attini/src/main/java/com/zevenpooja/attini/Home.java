@@ -124,6 +124,7 @@ public class Home extends Activity implements OnItemClickListener
 	public static final String  THUMBNAILPATH="ThumbnailPath" ;
 	public static final String  TITLE = "Title" ;
 	public static final String  URL= "Url" ;
+	private String isLiked;
 
 	JSONArray newsItems = null;
 	public static String avatarUrl = "";
@@ -181,7 +182,7 @@ public class Home extends Activity implements OnItemClickListener
 	private boolean canContinue  = true;
     ArrayList<String> myTitleList = new ArrayList<String>();
 	private boolean isSelected =true;
-
+	private  String registerContet;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -219,7 +220,7 @@ public class Home extends Activity implements OnItemClickListener
 
 
 
-		String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
+		 registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
 
 		int id = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
         TextView txtTitle = (TextView) findViewById(id);
@@ -407,6 +408,11 @@ public class Home extends Activity implements OnItemClickListener
 	}
 
 	@Override
+	protected void onRestoreInstanceState(Bundle savedInstanceState) {
+		super.onRestoreInstanceState(savedInstanceState);
+	}
+
+	@Override
 	protected void onResume()
 	{
 		// TODO Auto-generated method stub
@@ -470,7 +476,13 @@ public class Home extends Activity implements OnItemClickListener
 							String newsSourceTitle = menuObject.getString("NewsSourceTitle");
 							String newsLikes = menuObject.getString("NumberOfLikes");
 							String tags = menuObject.getString("EnterpriseKeywords");
-							String isLiked = menuObject.getString("IsLiked");
+							try {
+								isLiked = menuObject.getString("IsLiked");
+							}
+							catch (Exception e)
+							{
+								isLiked = "Undefined";
+							}
 
 							myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags, isLiked));
 
@@ -617,6 +629,17 @@ public class Home extends Activity implements OnItemClickListener
 		{
 			HomeFragment.myDialog.dismiss();
 		}
+	/*	FetchItems fetchTask = new FetchItems();
+		try {
+			myFinalNewsList = fetchTask.execute(registerContet).get();
+
+		}
+		catch (Exception e)
+		{
+
+			e.printStackTrace();
+		}*/
+
 	}
 	/**
 	 * Slide menu item click listener

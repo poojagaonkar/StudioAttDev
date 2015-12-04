@@ -123,7 +123,8 @@ public class NewsDetails extends Activity implements  OnClickListener
 	private String bodyText;
 	private SharedPreferences prefs;
 	private SharedPreferences.Editor editor;
-	private boolean isLiked;
+	private String isLiked;
+	private String resultString;
 
 
 	public NewsDetails(ProgressDialog myDialog) 
@@ -247,7 +248,8 @@ public class NewsDetails extends Activity implements  OnClickListener
 		newsId = in.getStringExtra("NewsId");
 		newsLikes = in.getStringExtra("NewsLikes");
 		tags = in.getStringExtra("Tags");
-		isLiked = Boolean.parseBoolean(in.getStringExtra("IsLiked"));
+		isLiked =in.getStringExtra("IsLiked");
+
 		spHostUrl = in.getStringExtra("SPHostUrl");
 		encodedAccountName = in.getStringExtra("EncodedAccountName");
 		deviceAuthKey = in.getStringExtra("DeviceAuthKey");
@@ -344,18 +346,20 @@ public class NewsDetails extends Activity implements  OnClickListener
 		
 	
 		btnAddComms.setOnClickListener(this);
-		if(isLiked)
+		if(isLiked.matches("true"))
 		{
 			btnPostLikes.setImageResource(R.drawable.like_button_selected);
 			btnPostLikes.setPadding(0, 3, 0, 0);
 			//btnPostLikes.setEnabled(false);
-			btnPostLikes.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-				PostUnlike postUnlike = new PostUnlike();
-					postUnlike.execute(EndPoints.UpdateUnlikeUrl);
-				}
-			});
+			if(!isLiked.matches("Undefined")) {
+				btnPostLikes.setOnClickListener(new OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						PostUnlike postUnlike = new PostUnlike();
+						postUnlike.execute(EndPoints.UpdateUnlikeUrl);
+					}
+				});
+			}
 		}
 		else {
 			btnPostLikes.setOnClickListener(this);
@@ -524,6 +528,17 @@ public class NewsDetails extends Activity implements  OnClickListener
 		new updateViews().execute(viewUpdateUrl);
 		
 		myCommentsList.clear();
+		/*Intent returnIntent = new Intent();
+		if(resultString == "Success")
+		{
+
+			setResult(0, returnIntent);
+		}
+		else {
+
+			setResult(1, returnIntent);
+		}*/
+
 		this.finish();
 
 	}
@@ -874,7 +889,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 			// TODO Auto-generated method stub
 
 			HttpResponse response =null;
-			String resultString = "";
+
 			String myResponseBody = "" ;
 			// Creating HTTP client
 			HttpClient httpClient = new DefaultHttpClient();
@@ -903,6 +918,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 					{
 
 						InputStream inputStream = entity.getContent();
+						String res = convertToString(inputStream);
 						resultString = "Success";
 
 					}
@@ -934,6 +950,22 @@ public class NewsDetails extends Activity implements  OnClickListener
 			}
 
 		}
+	}
+	private String convertToString(InputStream inputStream)
+	{
+		// TODO Auto-generated method stub
+		StringBuffer string = new StringBuffer();
+		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+		String line;
+		try
+		{
+			while ((line = reader.readLine()) != null)
+			{
+				string.append(line + "\n");
+			}
+		}
+		catch (IOException e) {}
+		return string.toString();
 	}
 
 	private class PostUnlike extends AsyncTask<String, String, String>

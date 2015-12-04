@@ -11,6 +11,7 @@ public class EndPoints
 	//Development Endpoints //Working on 11-04-2014
 	
 	// Url to Register the device
+/*
 	public static String RegisterDevice = "https://www.attinicommsdev.com/api/RegisterDevice";
 	//Url to Authenticate device
 	public static String AuthenticateDevice = "https://www.attinicommsdev.com/api/AuthenticateDevice";
@@ -26,13 +27,14 @@ public class EndPoints
 	public static String UpdateLikesUrl = "https://www.attinicommsdev.com/api/likes/Like";
 	//Url to unlike url (Delete request)
 	public static String UpdateUnlikeUrl="https://www.attinicommsdev.com/api/likes";
+*/
 
 
 	
 	/*Production Endpoints*/
 	
 	// Url to Register the device
-	/*public static String RegisterDevice = "https://www.attinicomms2.com/api/RegisterDevice";
+	public static String RegisterDevice = "https://www.attinicomms2.com/api/RegisterDevice";
 	//Url to Authenticate device
 	public static String AuthenticateDevice = "https://www.attinicomms2.com/api/AuthenticateDevice";
 	//Url to GET news Items
@@ -46,7 +48,7 @@ public class EndPoints
 	//Url to post likes (Post request)
 	public static String UpdateLikesUrl = "https://www.attinicomms2.com/api/likes/Like";
 	//Url to unlike url (Delete request)
-	public static String UpdateUnlikeUrl="https://www.attinicomms2.com/api/likes";*/
+	public static String UpdateUnlikeUrl="https://www.attinicomms2.com/api/likes";
 	
         
 }

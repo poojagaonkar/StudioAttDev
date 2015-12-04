@@ -133,6 +133,7 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 	protected MediaPlayer playSound;
 	private StaggeredGridLayoutManager gaggeredGridLayoutManager;
 	private RecyclerView recyclerView;
+	private HomeLandAdapter rcAdapter;
 
 	@SuppressLint("ValidFragment")
 
@@ -211,7 +212,7 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 
 
 			recyclerView.setHasFixedSize(true);
-			HomeLandAdapter rcAdapter = new HomeLandAdapter(myContext, getList,HomeFragment.this);
+			rcAdapter = new HomeLandAdapter(myContext, getList,HomeFragment.this);
 			gaggeredGridLayoutManager = new StaggeredGridLayoutManager(3, 1);
 			recyclerView.setLayoutManager(gaggeredGridLayoutManager);
 			recyclerView.setAdapter(rcAdapter);
@@ -300,14 +301,27 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 			newsIntent.putExtra("DeviceAuthKey", deviceAuthKey);
 			newsIntent.putExtra("AvatarUrl", avatarUrl);
 			newsIntent.putExtra("FullName", fullName);
-			
-			
+
 			startActivity(newsIntent);
+			//startActivityForResult(newsIntent, 1000);
 			
 	}
 
-	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (requestCode == 1000) {
 
+			if(resultCode == 0){
+				if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+				{
+					itemsAdapter.notifyDataSetChanged();
+				}
+				else {
+					rcAdapter.notifyDataSetChanged();
+				}
 
+			}
 
+		}
+	}
 }
