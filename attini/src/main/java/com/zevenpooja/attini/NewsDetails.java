@@ -17,6 +17,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.BufferedHttpEntity;
@@ -122,6 +123,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 	private String bodyText;
 	private SharedPreferences prefs;
 	private SharedPreferences.Editor editor;
+	private boolean isLiked;
 
 
 	public NewsDetails(ProgressDialog myDialog) 
@@ -200,8 +202,6 @@ public class NewsDetails extends Activity implements  OnClickListener
 		viewNewsCat = (View)findViewById(R.id.viewNewsCatagory);
 
 
-		prefs  = PreferenceManager.getDefaultSharedPreferences(NewsDetails.this);
-		editor = prefs.edit();
 
 
 		//Make comments list non clickable
@@ -247,7 +247,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 		newsId = in.getStringExtra("NewsId");
 		newsLikes = in.getStringExtra("NewsLikes");
 		tags = in.getStringExtra("Tags");
-
+		isLiked = Boolean.parseBoolean(in.getStringExtra("IsLiked"));
 		spHostUrl = in.getStringExtra("SPHostUrl");
 		encodedAccountName = in.getStringExtra("EncodedAccountName");
 		deviceAuthKey = in.getStringExtra("DeviceAuthKey");
@@ -315,14 +315,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 		txtNewsBody.loadData(bodyText, "text/html; charset=utf-8", "UTF-8");
 
-		/*webSettings.setJavaScriptEnabled(true);
-		webSettings.setDefaultFontSize(12);
-		webSettings.setTextZoom(180);
-		webSettings.setSupportZoom(true);
-		webSettings.setLayoutAlgorithm(LayoutAlgorithm.SINGLE_COLUMN);
-		txtNewsBody.setInitialScale(100);
-		txtNewsBody.loadDataWithBaseURL(null,newsBody, "text/html", "utf-8",null);*/
-		
+
 
 		if(newsBody.contains(newsImage))
 		{
@@ -351,11 +344,18 @@ public class NewsDetails extends Activity implements  OnClickListener
 		
 	
 		btnAddComms.setOnClickListener(this);
-		if(prefs.getBoolean("IsLiked",false) == true)
+		if(isLiked)
 		{
 			btnPostLikes.setImageResource(R.drawable.like_button_selected);
 			btnPostLikes.setPadding(0, 3, 0, 0);
-			btnPostLikes.setEnabled(false);
+			//btnPostLikes.setEnabled(false);
+			btnPostLikes.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+				PostUnlike postUnlike = new PostUnlike();
+					postUnlike.execute(EndPoints.UpdateUnlikeUrl);
+				}
+			});
 		}
 		else {
 			btnPostLikes.setOnClickListener(this);
@@ -523,10 +523,8 @@ public class NewsDetails extends Activity implements  OnClickListener
 		String viewUpdateUrl = EndPoints.UpdateViewsUrl;//+"?spHostUrl="+spHostUrl+"&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+deviceAuthKey+"&newsSourceId="+newsSourceId+"&articleGuid="+articleGuid+"&articleId="+newsId;
 		new updateViews().execute(viewUpdateUrl);
 		
-		
-			
-	
 		myCommentsList.clear();
+		this.finish();
 
 	}
 
@@ -797,13 +795,13 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 			List<NameValuePair> nameValuePair = new ArrayList<NameValuePair>(8);
 			nameValuePair.add(new BasicNameValuePair("spHostUrl", spHostUrl));
-			nameValuePair.add(new BasicNameValuePair("encodedAccountName",encodedAccountName));
+			nameValuePair.add(new BasicNameValuePair("encodedAccountName", encodedAccountName));
 			nameValuePair.add(new BasicNameValuePair("deviceAuthKey", deviceAuthKey));
 			nameValuePair.add(new BasicNameValuePair("newsSourceId", newsSourceId));
 			nameValuePair.add(new BasicNameValuePair("articleGuid", articleGuid));
 			nameValuePair.add(new BasicNameValuePair("articleId", newsId));
 			nameValuePair.add(new BasicNameValuePair("commentText", postedComment));
-			nameValuePair.add(new BasicNameValuePair("authorDisplayName",fullName));
+			nameValuePair.add(new BasicNameValuePair("authorDisplayName", fullName));
 
 
 
@@ -925,10 +923,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 		protected void onPostExecute(String s) {
 			super.onPostExecute(s);
 			if(s.matches("Success")) {
-				editor.putBoolean("IsLiked", true);
 
-
-				editor.commit();
 				btnPostLikes.setImageResource(R.drawable.like_button_selected);
 				btnPostLikes.setPadding(0, 3, 0, 0);
 				btnPostLikes.setEnabled(false);
@@ -941,7 +936,66 @@ public class NewsDetails extends Activity implements  OnClickListener
 		}
 	}
 
+	private class PostUnlike extends AsyncTask<String, String, String>
+	{
+		int flag = 1;
+		@Override
+		protected String doInBackground(String... params)
+		{
+			// TODO Auto-generated method stub
 
+			HttpResponse response =null;
+			String resultString = "";
+			String url = params[0]+"?deviceAuthKey="+deviceAuthKey+"&encodedAccountName="+encodedAccountName+"&spHostUrl="+spHostUrl+"&articleId="+newsId ;
+
+
+			// Creating HTTP client
+			HttpClient httpClient = new DefaultHttpClient();
+			// Creating HTTP Post
+			HttpDelete request = new HttpDelete(url);
+
+			try
+			{
+				response = httpClient.execute(request);
+				if(response.getStatusLine().getStatusCode()== 200)
+				{
+					HttpEntity entity = response.getEntity();
+					if (entity != null)
+					{
+
+						InputStream inputStream = entity.getContent();
+						resultString = "Success";
+
+					}
+				}
+				else
+				{
+					resultString = "Fail";
+				}
+			}
+			catch(Exception e)
+			{
+				e.printStackTrace();
+			}
+			return resultString;
+		}
+
+		@Override
+		protected void onPostExecute(String s) {
+			super.onPostExecute(s);
+			if(s.matches("Success")) {
+
+				btnPostLikes.setImageResource(R.drawable.like_button);
+				btnPostLikes.setPadding(0, 3, 0, 0);
+
+			}
+			else
+			{
+				Toast.makeText(NewsDetails.this,"Something went wrong",Toast.LENGTH_LONG).show();
+			}
+
+		}
+	}
 
 
 	@Override

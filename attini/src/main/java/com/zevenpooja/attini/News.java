@@ -24,6 +24,9 @@ public class News implements Parcelable
     String newsSourceTitle;
     String color;
     String tags;
+
+
+	String isLiked;
     
     protected News(Parcel in) {
         title = in.readString();
@@ -42,6 +45,7 @@ public class News implements Parcelable
         newsSourceTitle = in.readString();
         color = in.readString();
         tags = in.readString();
+		isLiked = in.readString();
     }
     
     public String getNewsLikes() {
@@ -52,14 +56,14 @@ public class News implements Parcelable
 		this.newsLikes = newsLikes;
 	}
 
-	News(String title, String description, String thumbnail, String newsUrl, String body, String newsBigImage,  String newsComments,  String newsViews,
-    String publishedDate,
-    String articleGuid,
-    String newsSourceId,
-    String newsId ,
-    String publisherName,
-    String newsSourceTitle,
-    String newsLikes, String tags)
+	News(String title, String description, String thumbnail, String newsUrl, String body, String newsBigImage, String newsComments, String newsViews,
+		 String publishedDate,
+		 String articleGuid,
+		 String newsSourceId,
+		 String newsId,
+		 String publisherName,
+		 String newsSourceTitle,
+		 String newsLikes, String tags, String isLiked)
     {
         
         this.title = title;
@@ -75,13 +79,20 @@ public class News implements Parcelable
         this.newsId = newsId;
         this.newsSourceId = newsSourceId;
         this.publisherName = publisherName;
-        //this.color = color;
+       this.isLiked = isLiked;
         this.newsSourceTitle  =newsSourceTitle;
         this.newsLikes = newsLikes;
         this.tags = tags;
     }
 
-	
+
+	public String getIsLiked() {
+		return isLiked;
+	}
+
+	public void setIsLiked(String isLiked) {
+		this.isLiked = isLiked;
+	}
 
 	public String getTags() {
 		return tags;
@@ -235,6 +246,7 @@ public class News implements Parcelable
 	    dest.writeString(publisherName);
 	    dest.writeString(newsSourceTitle);
 	    dest.writeString(color);
+		dest.writeString(isLiked);
 	}
 	@SuppressWarnings("unused")
 	public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>() {

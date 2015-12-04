@@ -278,6 +278,7 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 				 String title =  getList.get(position).getTitle();
 				 String newsLikes = getList.get(position).getNewsLikes();
 				 String tags = getList.get(position).getTags();
+				String isLiked = getList.get(position).getIsLiked();
 	        
 	        newsIntent.putExtra("NewsBody", newsBody);
 	        newsIntent.putExtra("NewsViews", newsView);
@@ -293,7 +294,7 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 	        newsIntent.putExtra("Title", title);
 	        newsIntent.putExtra("NewsLikes", newsLikes);
 	        newsIntent.putExtra("Tags", tags);
-	      
+	      	newsIntent.putExtra("IsLiked", isLiked);
 	    	newsIntent.putExtra("SPHostUrl", SPHostUrl);
 			newsIntent.putExtra("EncodedAccountName", encodedAccountName);
 			newsIntent.putExtra("DeviceAuthKey", deviceAuthKey);

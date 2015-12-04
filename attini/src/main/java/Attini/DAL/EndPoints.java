@@ -24,6 +24,9 @@ public class EndPoints
 	public static String UpdateViewsUrl = "https://www.attinicommsdev.com/api/Views/PostViewTrackingOnArticle";
 	//Url to post likes (Post request)
 	public static String UpdateLikesUrl = "https://www.attinicommsdev.com/api/likes/Like";
+	//Url to unlike url (Delete request)
+	public static String UpdateUnlikeUrl="https://www.attinicommsdev.com/api/likes";
+
 
 	
 	/*Production Endpoints*/
@@ -41,7 +44,9 @@ public class EndPoints
 	//Url to update  views on a post (Create a Post request)
 	public static String UpdateViewsUrl = "https://www.attinicomms2.com/api/Views/PostViewTrackingOnArticle";
 	//Url to post likes (Post request)
-	public static String UpdateLikesUrl = "https://www.attinicomms2.com/api/likes/Like";*/
+	public static String UpdateLikesUrl = "https://www.attinicomms2.com/api/likes/Like";
+	//Url to unlike url (Delete request)
+	public static String UpdateUnlikeUrl="https://www.attinicomms2.com/api/likes";*/
 	
         
 }

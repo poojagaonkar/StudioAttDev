@@ -40,6 +40,7 @@ import Utility.DialogHelper;
 import Utility.ListViewInScrollViewHeight;
 import Utility.MyComparator;
 import Utility.MyList;
+import Utility.PainTitleAdapter;
 import Utility.ProgressDialogFragment;
 import Utility.SessionManagement;
 //import Utility.StorageHelper;
@@ -171,7 +172,7 @@ public class Home extends Activity implements OnItemClickListener
 	public static List<News> companyNewsList = new ArrayList<News>();
 	public static ArrayList<String> catagoryArrayList = new ArrayList<String>();
 
-	public static String[] catagoryList = new String[] {"Most Liked", "Most Commented", "Most Viewed", "About Us"};//,"Logout"};
+	public static String[] catagoryList = new String[] {"Most Liked", "Most Commented", "Most Viewed","", "About Us"};//,"Logout"};
 	public static String[] colorPallete = new String[] {"#1F1A17", "#62934D", "#F9B03F", "#7959BC", "#74B8DE", "#E65641", "#7CC8BB", "#D7CE5D", "#D6BE95", "#B694D1"};
 	private String NewsSourceTitle = null;
 	ProgressDialogFragment prog;
@@ -381,7 +382,8 @@ public class Home extends Activity implements OnItemClickListener
 			}
 		});
 
-		ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this, R.layout.drawer_list_item_2, R.id.txtCatagories, catagoryList);
+		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this, R.layout.drawer_list_item_2, R.id.txtCatagories, catagoryList);
+		PainTitleAdapter adapter = new PainTitleAdapter(Home.this,catagoryList);
 		mCatagoryList.setAdapter(adapter);
 		mCatagoryList.setOnItemClickListener(this);
 
@@ -412,8 +414,6 @@ public class Home extends Activity implements OnItemClickListener
 
 		ListViewInScrollViewHeight.setListViewHeightBasedOnChildren(mCatagoryList);
 		ListViewInScrollViewHeight.setListViewHeightBasedOnChildren(mDrawerList);
-
-
 
 	}
 
@@ -470,9 +470,9 @@ public class Home extends Activity implements OnItemClickListener
 							String newsSourceTitle = menuObject.getString("NewsSourceTitle");
 							String newsLikes = menuObject.getString("NumberOfLikes");
 							String tags = menuObject.getString("EnterpriseKeywords");
+							String isLiked = menuObject.getString("IsLiked");
 
-
-							myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags));
+							myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags, isLiked));
 
                             myTitleList.add(newsSourceTitle);
 						}
