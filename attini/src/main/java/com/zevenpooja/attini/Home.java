@@ -629,16 +629,7 @@ public class Home extends Activity implements OnItemClickListener
 		{
 			HomeFragment.myDialog.dismiss();
 		}
-	/*	FetchItems fetchTask = new FetchItems();
-		try {
-			myFinalNewsList = fetchTask.execute(registerContet).get();
 
-		}
-		catch (Exception e)
-		{
-
-			e.printStackTrace();
-		}*/
 
 	}
 	/**
@@ -874,9 +865,25 @@ public class Home extends Activity implements OnItemClickListener
 		}
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == 1000) {
+
+			if(resultCode == 0){
+
+				String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
+				new FetchItems().execute(registerContet);
+			}
+			else
+			{
+				DialogHelper.CreateNetworkAlert(this,"Error","Someting went wrong");
+			}
 
 
+		}
 
+	}
 }
 
 

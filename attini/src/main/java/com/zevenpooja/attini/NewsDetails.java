@@ -528,7 +528,8 @@ public class NewsDetails extends Activity implements  OnClickListener
 		new updateViews().execute(viewUpdateUrl);
 		
 		myCommentsList.clear();
-		/*Intent returnIntent = new Intent();
+		Intent returnIntent = new Intent();
+
 		if(resultString == "Success")
 		{
 
@@ -537,7 +538,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 		else {
 
 			setResult(1, returnIntent);
-		}*/
+		}
 
 		this.finish();
 

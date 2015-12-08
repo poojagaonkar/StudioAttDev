@@ -134,6 +134,8 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 	private StaggeredGridLayoutManager gaggeredGridLayoutManager;
 	private RecyclerView recyclerView;
 	private HomeLandAdapter rcAdapter;
+	private String isLiked;
+	private  int mPosition;
 
 	@SuppressLint("ValidFragment")
 
@@ -175,6 +177,8 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 		recyclerView = (RecyclerView)vi.findViewById(R.id.recycler_view);
 		//mGridView =(com.etsy.android.grid.StaggeredGridView)vi.findViewById(R.id.staggeredGridView1);
 
+
+
 		if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
 		{
 
@@ -188,8 +192,8 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 										View arg1, int position, long arg3)
 				{
 					// TODO Auto-generated method stub
-
-					sendData(position);
+					mPosition = position;
+					sendData(mPosition);
 
 
 				}
@@ -239,7 +243,8 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 
 	@Override
 	public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-		sendData(i);
+		mPosition = i;
+		sendData(mPosition);
 	}
 
 
@@ -264,22 +269,22 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 			
 			
 	        Intent newsIntent = new Intent(getActivity(),NewsDetails.class);
-	
-		       String newsBody=getList.get(position).getBody();
-				 String newsImage =getList.get(position).getNewsBigImage();
-				 String newsView = getList.get(position).getNewsViews();
-				 String newsComments = getList.get(position).getNewsComments();
-				 String pubDate = getList.get(position).getPublishedDate();
-				 String articleGuid = getList.get(position).getArticleGuid();
-				 String newsSourceId = getList.get(position).getNewsSourceId();
-				 String newsId = getList.get(position).getNewsId();
-				 String publisherName = getList.get(position).getPublisherName();
-				 String colors = getList.get(position).getColor();
-				 String newsSourceTitle = getList.get(position).getNewsSourceTitle();
-				 String title =  getList.get(position).getTitle();
-				 String newsLikes = getList.get(position).getNewsLikes();
-				 String tags = getList.get(position).getTags();
-				String isLiked = getList.get(position).getIsLiked();
+
+		String newsBody=getList.get(position).getBody();
+		String newsImage =getList.get(position).getNewsBigImage();
+		String newsView = getList.get(position).getNewsViews();
+		String newsComments = getList.get(position).getNewsComments();
+		String pubDate = getList.get(position).getPublishedDate();
+		String articleGuid = getList.get(position).getArticleGuid();
+		String newsSourceId = getList.get(position).getNewsSourceId();
+		String newsId = getList.get(position).getNewsId();
+		String publisherName = getList.get(position).getPublisherName();
+		String colors = getList.get(position).getColor();
+		String newsSourceTitle = getList.get(position).getNewsSourceTitle();
+		String title =  getList.get(position).getTitle();
+		String newsLikes = getList.get(position).getNewsLikes();
+		String tags = getList.get(position).getTags();
+		isLiked= getList.get(position).getIsLiked();
 	        
 	        newsIntent.putExtra("NewsBody", newsBody);
 	        newsIntent.putExtra("NewsViews", newsView);
@@ -302,26 +307,27 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 			newsIntent.putExtra("AvatarUrl", avatarUrl);
 			newsIntent.putExtra("FullName", fullName);
 
-			startActivity(newsIntent);
-			//startActivityForResult(newsIntent, 1000);
+
+			//startActivity(newsIntent);
+			getActivity().startActivityForResult(newsIntent, 1000);
 			
 	}
 
-	@Override
+	/*@Override
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == 1000) {
 
 			if(resultCode == 0){
-				if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
-				{
-					itemsAdapter.notifyDataSetChanged();
-				}
-				else {
-					rcAdapter.notifyDataSetChanged();
-				}
 
+				isLiked = "true";
+			}
+			else
+			{
+				isLiked = "false";
 			}
 
+
 		}
-	}
+
+	}*/
 }
