@@ -60,6 +60,7 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebSettings.LayoutAlgorithm;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -257,7 +258,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 		// Applying date
 		SimpleDateFormat fromUser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-		SimpleDateFormat myFormat = new SimpleDateFormat("MMM dd, yy");
+		SimpleDateFormat myFormat = new SimpleDateFormat("dd MMMM, yy");
 
 
 		try {
@@ -366,8 +367,6 @@ public class NewsDetails extends Activity implements  OnClickListener
 		}
 		btnBackArticle.setOnClickListener(this);
 		
-		 Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
-	      txtMainTitle.setTypeface(typaFace);
 
 	}
 
@@ -533,11 +532,11 @@ public class NewsDetails extends Activity implements  OnClickListener
 		if(resultString == "Success")
 		{
 
-			setResult(0, returnIntent);
+			setResult(Activity.RESULT_OK, returnIntent);
 		}
 		else {
 
-			setResult(1, returnIntent);
+			setResult(Activity.RESULT_CANCELED, returnIntent);
 		}
 
 		this.finish();
@@ -940,7 +939,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 		protected void onPostExecute(String s) {
 			super.onPostExecute(s);
 			if(s.matches("Success")) {
-
+				resultString = s;
 				btnPostLikes.setImageResource(R.drawable.like_button_selected);
 				btnPostLikes.setPadding(0, 3, 0, 0);
 				btnPostLikes.setEnabled(false);
@@ -1017,7 +1016,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 		protected void onPostExecute(String s) {
 			super.onPostExecute(s);
 			if(s.matches("Success")) {
-
+				resultString = s;
 				btnPostLikes.setImageResource(R.drawable.like_button);
 				btnPostLikes.setPadding(0, 3, 0, 0);
 
@@ -1066,7 +1065,7 @@ public class NewsDetails extends Activity implements  OnClickListener
 			
 			
 			final ImageButton dialogButton = (ImageButton)dialog.findViewById(R.id.dialogButtonOK);
-			dialogButton.setOnClickListener(new View.OnClickListener() 
+			dialogButton.setOnClickListener(new OnClickListener()
 			{
 				
 				@SuppressLint("ResourceAsColor")
@@ -1114,8 +1113,19 @@ public class NewsDetails extends Activity implements  OnClickListener
 
 
 		case R.id.btnBackArticle:
-			
-			finish();
+
+			Intent returnIntent = new Intent();
+
+			if(resultString == "Success")
+			{
+
+				setResult(Activity.RESULT_OK, returnIntent);
+			}
+			else {
+
+				setResult(Activity.RESULT_CANCELED, returnIntent);
+			}
+			this.finish();
 			break;
 		}
 	}

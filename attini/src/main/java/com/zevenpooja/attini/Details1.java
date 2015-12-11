@@ -17,6 +17,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Window;
 import android.webkit.CookieManager;
 import android.webkit.WebView;
@@ -25,6 +26,8 @@ import android.webkit.WebViewDatabase;
 import android.widget.TextView;
 
 import com.zeven.attini.R;
+
+import org.jsoup.helper.StringUtil;
 
 @SuppressLint("ValidFragment")
 public class Details1 extends Activity
@@ -56,7 +59,8 @@ public class Details1 extends Activity
 			sessiondetails = new SessionManagement(getApplicationContext());
 			
 			myWebView = (WebView)findViewById(R.id.webView1);
-			
+
+			//test
 			
 			cd = new ConnectionDetector(Details1.this);
 			if(cd.isConnectingToInternet()== false)
@@ -115,6 +119,7 @@ public class Details1 extends Activity
 					super.onPageStarted(view, url, favicon);
 					redirected =view.getUrl();
 					redirected=  Uri.decode(redirected);
+
 					
 					if(Build.VERSION.SDK_INT<= Build.VERSION_CODES.JELLY_BEAN_MR2)
 					{
@@ -140,64 +145,55 @@ public class Details1 extends Activity
 				{
 					// TODO Auto-generated method stub
 					super.onPageFinished(view, url);
-					//
-					
+
+					String splitString = "https://"+hostUrl;
+					/*int iend = hostUrl.indexOf("|");
+
+					if (iend != -1) {
+						splitString = "https://"+hostUrl.substring(0, iend);
+					}*/
 					if(progressBar!=null && progressBar.isShowing())
 					{
 						progressBar.dismiss();
 					}
-					
+
+
 					redirected =view.getUrl();
 					redirected=  Uri.decode(redirected);
-					
-				/*	new AlertDialog.Builder(Details1.this)
-				   
-				    .setMessage(redirected)
-				   
-				    .setNegativeButton("Ok", new DialogInterface.OnClickListener() {
-				        public void onClick(DialogInterface dialog, int which) { 
-				            // do nothing
-				        }
-				     })
-				   
-				     .show();*/
-					
+					Log.w("Redirected", redirected);
+
 					//redirectString="redirect_uri="+endpointHost+"/AuthorizeDevice/index/"+deviceId+"?SPHostUrl=https://zevenseas1.sharepoint.com/sites/intranet&"
-						if(Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2)
+					if(Build.VERSION.SDK_INT<=Build.VERSION_CODES.JELLY_BEAN_MR2)
 					{
-					if(redirected!=null && myprogressDialog.isVisible())//&& redirected.matches("https://www.attinicomms.com/AuthorizeDevice/index/"+deviceId+"?SPHostUrl=https://zevenseas1.sharepoint.com/sites/intranet&SPLanguage=en-US&SPClientTag=6&SPProductNumber=16.0.2916.1214&SPAppWebUrl=https://ZEVENSEAS1-5fa86411b88b26.sharepoint.com/sites/intranet/AttiniCommsPublisher"))
-					{
-						
-						//myprogressDialog.dismiss();
-						
-						myWebView.stopLoading();
-						
-						String authorizationContentString =  AuthenticateDeviceEndPoint+ "?encodedAccountName=" + encodedAccountName + "&deviceId=" + deviceId + "&hostUrl=" + hostUrl;
-						authorizationContentString =authorizationContentString.replace("|", "%7C");
-						
-						
-						new AuthenticateDevice(Details1.this, myprogressDialog, hostUrl).execute(authorizationContentString);
-						
-						
-					}
-						
-						
+						if(redirected!=null && myprogressDialog.isVisible())//&& redirected.matches("https://www.attinicomms.com/AuthorizeDevice/index/"+deviceId+"?SPHostUrl=https://zevenseas1.sharepoint.com/sites/intranet&SPLanguage=en-US&SPClientTag=6&SPProductNumber=16.0.2916.1214&SPAppWebUrl=https://ZEVENSEAS1-5fa86411b88b26.sharepoint.com/sites/intranet/AttiniCommsPublisher"))
+						{
+							myWebView.stopLoading();
+							String authorizationContentString = AuthenticateDeviceEndPoint + "?encodedAccountName=" + encodedAccountName + "&deviceId=" + deviceId + "&hostUrl=" + hostUrl;
+							authorizationContentString = authorizationContentString.replace("|", "%7C");
+							new AuthenticateDevice(Details1.this, myprogressDialog, hostUrl).execute(authorizationContentString);
+						}
+						else if(redirected.startsWith(splitString) && redirected.contains("wsignin1.0"))
+						{
+							myWebView.stopLoading();
+							DialogHelper.FullLogoutAlert(Details1.this, "", "Authentication failed. Please login again");
+						}
+
 					}
 				else if(Build.VERSION.SDK_INT> Build.VERSION_CODES.JELLY_BEAN_MR2)
 					{
-						if(redirected!=null && redirected.startsWith(endpointHost+"/AuthorizeDevice/index/"+deviceId))//&& myprogressDialog!=null && myprogressDialog.isVisible())
+						if(redirected!=null && redirected.startsWith(endpointHost + "/AuthorizeDevice/index/" + deviceId))//&& myprogressDialog!=null && myprogressDialog.isVisible())
 						{
-						
+
 							myWebView.stopLoading();
-							
 							String authorizationContentString =  AuthenticateDeviceEndPoint+ "?encodedAccountName=" + encodedAccountName + "&deviceId=" + deviceId + "&hostUrl=" + hostUrl;
 							authorizationContentString =authorizationContentString.replace("|", "%7C");
-							
-							
 							new AuthenticateDevice(Details1.this, myprogressDialog, hostUrl).execute(authorizationContentString);
-							
-							
-							
+						}
+						else if(redirected.startsWith(splitString) && redirected.contains("wsignin1.0"))
+						{
+
+							myWebView.stopLoading();
+							DialogHelper.FullLogoutAlert(Details1.this, "", "Authentication failed. Please login again");
 						}
 					}
 				}

@@ -108,7 +108,5 @@
     <orderEntry type="library" exported="" name="gson-1.7.1" level="project" />
     <orderEntry type="library" exported="" name="quick-json-1.0.2" level="project" />
     <orderEntry type="library" exported="" name="jsoup-1.6.0" level="project" />
-    <orderEntry type="module" module-name="main" exported="" />
-    <orderEntry type="module" module-name="staggeredGridViewmaster" exported="" />
   </component>
 </module>

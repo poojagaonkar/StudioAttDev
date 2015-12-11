@@ -1,10 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="@color/white"
- >
+    android:background="#0098B1"
+    android:gravity="center">
+
+    <ImageView
+        android:id="@+id/progressBarImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_centerInParent="true"
+        android:scaleType="fitXY"
+        android:src="@drawable/attinicommslogo1"
+        />
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/txtTitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attini"
+            android:textSize="18sp"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:id="@+id/txtTitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comms"
+            android:textSize="18sp"
+            android:textColor="@android:color/black"/>
+
+    </LinearLayout>
+
+
 
     <TextView
             android:id="@+id/txtprogressBar"
@@ -13,33 +48,19 @@
             android:layout_below="@+id/progressBarImage"
             android:layout_centerHorizontal="true"
             android:text="Please wait while we get you the news..."
-            android:textColor="@color/Attini" />
+            android:textColor="@color/white"
+        android:layout_marginTop="5dp" />
  
- <ProgressBar
+    <ProgressBar
         android:id="@+id/progressBar"
         style="?android:attr/progress"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/txtprogressBar"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp" />
         
-        <ImageView 
-             android:id="@+id/progressBarImage"
-            android:layout_width="wrap_content"
-        	android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-			android:scaleType="fitXY"
-            android:src="@drawable/attinicommslogo"
-            />
 
-       <!--  <TextView
-            android:id="@+id/txtprogressBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/progressBar"
-            android:layout_centerHorizontal="true"
-            android:text="Please wait while we get you the news..."
-            android:textColor="@color/Attini" />-->
 
-</RelativeLayout>
+</LinearLayout>
 <!-- From: file:/F:/My%20Stuff/Imp/NewAttini/attini/src/main/res/layout/fragment_dialog_progress.xml -->

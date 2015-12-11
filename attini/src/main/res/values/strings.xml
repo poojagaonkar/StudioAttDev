@@ -3,9 +3,9 @@
 
     <string name="app_name">Attini Comms</string>
     <string name="action_settings">Logout</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="drawer_open">Slider Menu Opened</string>
-    <string name="drawer_close">Slider Menu Closed</string>
+    <string name="hello_world">Hello Comms!</string>
+    <string name="drawer_open">Settings</string>
+    <string name="drawer_close"></string>
     
      <!-- Nav Drawer Menu Items -->
     <string-array name="nav_drawer_items">
@@ -45,5 +45,6 @@
 <style name="OverFlow" parent="@android:style/Widget.Holo.ActionButton.Overflow">
     <item name="android:src">@drawable/referesh</item>
 </style>
+    <string name="title_activity_full_web_view">FullWebViewActivity</string>
 
 </resources>

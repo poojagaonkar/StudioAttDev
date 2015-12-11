@@ -3,14 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_gravity="center"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
 <TextView
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:layout_gravity="center_horizontal"
     android:layout_marginLeft="100dp"
-    android:text="Attini Comms"
-    android:textColor="#ffffff"
+    android:text="Attini"
+    android:textColor="#0098B1"
     android:textSize="24sp" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginLeft="100dp"
+        android:text="Comms"
+        android:textColor="#000000"
+        android:textSize="24sp" />
 </LinearLayout><!-- From: file:/F:/My%20Stuff/Imp/NewAttini/attini/src/main/res/layout/actionbar.xml -->

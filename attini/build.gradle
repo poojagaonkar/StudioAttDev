@@ -1,8 +1,7 @@
 apply plugin: 'com.android.application'
 
 dependencies {
-    compile project(':main')
-    compile project(':staggeredGridViewmaster')
+
     compile files('libs/json-simple-1.1.1.jar')
     compile files('libs/jackson-annotations-2.2.3.jar')
     compile files('libs/gson-1.7.1.jar')

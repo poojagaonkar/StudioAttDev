@@ -249,7 +249,7 @@ public class News implements Parcelable
 		dest.writeString(isLiked);
 	}
 	@SuppressWarnings("unused")
-	public static final Parcelable.Creator<News> CREATOR = new Parcelable.Creator<News>() {
+	public static final Creator<News> CREATOR = new Creator<News>() {
 	    @Override
 	    public News createFromParcel(Parcel in) {
 	        return new News(in);

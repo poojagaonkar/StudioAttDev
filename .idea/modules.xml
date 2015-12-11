@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/NewAttini.iml" filepath="$PROJECT_DIR$/NewAttini.iml" />
       <module fileurl="file://$PROJECT_DIR$/attini/attini.iml" filepath="$PROJECT_DIR$/attini/attini.iml" />
-      <module fileurl="file://$PROJECT_DIR$/main/main.iml" filepath="$PROJECT_DIR$/main/main.iml" />
-      <module fileurl="file://$PROJECT_DIR$/staggeredGridViewmaster/staggeredGridViewmaster.iml" filepath="$PROJECT_DIR$/staggeredGridViewmaster/staggeredGridViewmaster.iml" />
     </modules>
   </component>
 </project>

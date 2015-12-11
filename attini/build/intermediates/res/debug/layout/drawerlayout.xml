@@ -1,7 +1,47 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:minWidth="25px"
+    android:minHeight="25px">
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Dark"
+        android:gravity="center">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
+        <Utility.CustomFont
+            android:id="@+id/txtTitle1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Attini"
+            app:fontName="OpenSans-Bold.ttf"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"/>
+        <Utility.CustomFont
+            android:id="@+id/txtTitle2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Comms"
+            app:fontName="OpenSans-Bold.ttf"
+            android:textSize="20sp"
+            android:textColor="@android:color/white"/>
+        </LinearLayout>
+        </android.support.v7.widget.Toolbar>
+
 <android.support.v4.widget.DrawerLayout
   	android:id="@+id/drawer_layout"
-  	xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+  	 android:layout_width="match_parent"
     android:layout_height="match_parent">
  
 
@@ -31,23 +71,31 @@
    android:background="#1384AD">
     
     
-    <TextView
+    <Utility.CustomFont
         android:id="@+id/txtUserDrawer"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="10dp"
+        android:textColor="@color/black"
+        android:textStyle="bold"
+        app:fontName="OpenSans-Bold.ttf"
+        android:textSize="16sp"
+        android:background="#1290BD"/>
     
     
     <LinearLayout 
-           android:layout_width="fill_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="#1384AD"
         android:padding="10dp">
         
-        <TextView 
+        <Utility.CustomFont
             android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Featured"
-        android:textColor="@color/White"/>
+            android:layout_height="wrap_content"
+            android:text="CHANNELS"
+            android:textSize="14sp"
+            app:fontName="OpenSans-Bold.ttf"
+            android:textColor="@color/White"/>
         
     </LinearLayout>
  
@@ -58,7 +106,7 @@
                  android:layout_width="240dp"
                  android:layout_height="wrap_content"
                  android:choiceMode="singleChoice"
-                 android:listSelector="@drawable/list_selector"
+
                  android:background="#1290BD"
                 />
     
@@ -69,12 +117,14 @@
         android:layout_height="wrap_content"
         android:background="#1384AD"
         android:padding="10dp">
-        
-        <TextView 
-            android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Most popular"
-        android:textColor="@color/White"/>
+
+            <Utility.CustomFont
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SORT"
+                android:textSize="14sp"
+                app:fontName="OpenSans-Bold.ttf"
+                android:textColor="@color/White"/>
         
         
         
@@ -108,4 +158,4 @@
         </ScrollView>
        
 </android.support.v4.widget.DrawerLayout>
-<!-- From: file:/F:/My%20Stuff/Imp/NewAttini/attini/src/main/res/layout/drawerlayout.xml -->
+</LinearLayout><!-- From: file:/F:/My%20Stuff/Imp/NewAttini/attini/src/main/res/layout/drawerlayout.xml -->

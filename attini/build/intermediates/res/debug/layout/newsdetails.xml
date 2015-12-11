@@ -25,7 +25,7 @@
       <TextView 
            android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         android:text="Attini Comms"
+         android:text="@string/app_name"
          android:textColor="@color/White"
          android:id="@+id/txtNewsArticleMainTitle"
          android:textSize="20dp"
@@ -129,8 +129,9 @@
                 android:padding="10dp" >
 
                 <LinearLayout
-                    android:layout_width="98dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="15dp"
+                    android:orientation="horizontal"
                     android:background="#FF3C6FA6"
                     android:weightSum="10" >
 
@@ -144,13 +145,15 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:textColor="#F8F8F8"
                         android:textSize="11sp" />
+                    <View
+                        android:id="@+id/viewDate"
+                        android:layout_width="15dp"
+                        android:layout_height="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:background="#E6E6E6" />
                 </LinearLayout>
 
-                <View
-                    android:id="@+id/viewDate"
-                    android:layout_width="16dp"
-                    android:layout_height="15dp"
-                    android:background="#E6E6E6" />
+
 
                 <ImageButton
                     android:id="@+id/btnViews"

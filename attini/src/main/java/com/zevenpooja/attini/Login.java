@@ -34,6 +34,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -109,7 +110,7 @@ public class Login extends Activity
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
-		
+
 		//Check internet connections
 
 		cd = new ConnectionDetector(Login.this);
@@ -118,7 +119,7 @@ public class Login extends Activity
 			DialogHelper.CreateNetworkAlert(Login.this, "Network Error", "Check your internet connection");
 		}
 		else
-			
+
 		canContinue= true;
 		myContext = getApplicationContext();
 
@@ -149,7 +150,7 @@ public class Login extends Activity
       else
       {
         Animation animTranslate  = AnimationUtils.loadAnimation(Login.this, R.anim.translate);
-        animTranslate.setAnimationListener(new AnimationListener() 
+        animTranslate.setAnimationListener(new AnimationListener()
         {
 
             @Override
@@ -159,41 +160,41 @@ public class Login extends Activity
             public void onAnimationRepeat(Animation arg0) { }
 
             @Override
-            public void onAnimationEnd(Animation arg0) 
+            public void onAnimationEnd(Animation arg0)
             {
-            	
-            	
+
+
             	LoginBox.setVisibility(View.VISIBLE);
     			Animation animFade  = AnimationUtils.loadAnimation(Login.this, R.anim.fade);
     			LoginBox.startAnimation(animFade);
             	}
-            	
+
         });
-        ImageView imgLogo = (ImageView) findViewById(R.id.imageView1);
+        LinearLayout imgLogo = (LinearLayout) findViewById(R.id.imageView1);
         imgLogo.startAnimation(animTranslate);
-        
-       
-        
-        btnLogin.setOnClickListener(new OnClickListener() 
+
+
+
+        btnLogin.setOnClickListener(new OnClickListener()
         {
-			
+
 			@Override
-			public void onClick(View v) 
+			public void onClick(View v)
 			{
 				// TODO Auto-generated method stub
 				  // username, deviceId, deviceName parameters
-				
+
 				ConnectionDetector cd = new ConnectionDetector(Login.this);
 				if(cd.isConnectingToInternet()== false)
 				{
                     DialogHelper.CreateNetworkAlert(Login.this, "Network Error", "Check your internet connection");
 				}
 				else
-					
+
 				canContinue= true;
 				boolean didItWork =true;
 				username = editUser.getText().toString().trim();
-			
+
 				if(username.length()==0)
 				{
 
@@ -209,7 +210,7 @@ public class Login extends Activity
 					deviceName = GetMachineName();
 					new RegisterDevice(Login.this).execute(RegisterDeviceUrl);
 				}
-			
+
 			}
 
 			private String GetMachineName()
@@ -223,7 +224,7 @@ public class Login extends Activity
 			{
 				// TODO Auto-generated method stub
 					String androidId = Secure.getString(getContentResolver(), Secure.ANDROID_ID);
-					
+
 					String telephoneId = "";
 					String teleSim = "";
 					TelephonyManager telMan = (TelephonyManager)getApplicationContext().getSystemService(Context.TELEPHONY_SERVICE);
@@ -239,7 +240,7 @@ public class Login extends Activity
 						}
 					}
 				    UUID deviceUuid = new UUID(androidId.hashCode(), ((long)telephoneId.hashCode()<<32|teleSim.hashCode()));
-				    
+
 					return deviceUuid.toString();
 			}
 		});
@@ -248,6 +249,13 @@ public class Login extends Activity
 
 
 	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		super.recreate();
+	}
+
 	private void startMyActivity()
 	{
 		Intent in = new Intent(Login.this, Details1.class);

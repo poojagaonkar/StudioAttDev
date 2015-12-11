@@ -66,6 +66,9 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.util.Linkify;
@@ -92,7 +95,7 @@ import com.zeven.attini.R;
 
 
 @SuppressLint("NewApi")
-public class Home extends Activity implements OnItemClickListener
+public class Home extends AppCompatActivity implements OnItemClickListener
 {
 	TextView usersName;
 	String encodedAccountName,SPHostUrl,refreshToken, realm,usersname, deviceAuthKey,lastName, fullName;
@@ -152,7 +155,7 @@ public class Home extends Activity implements OnItemClickListener
 	private DrawerLayout mDrawerLayout;
 	private ScrollView mainLinearLayout;
 	private ListView mDrawerList, mCatagoryList, moptionsList;
-	private ActionBarDrawerToggle mDrawerToggle;
+	private android.support.v7.app.ActionBarDrawerToggle mDrawerToggle;
 	private MediaPlayer playSound;
 
 	// nav drawer title
@@ -183,6 +186,8 @@ public class Home extends Activity implements OnItemClickListener
     ArrayList<String> myTitleList = new ArrayList<String>();
 	private boolean isSelected =true;
 	private  String registerContet;
+	private Toolbar toolbar;
+	private TextView txtTitle1, txtTitle2;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState)
@@ -205,9 +210,12 @@ public class Home extends Activity implements OnItemClickListener
 		mainLinearLayout = (ScrollView)findViewById(R.id.left_drawer);
 		mCatagoryList = (ListView)findViewById(R.id.list_slidermenu2);
 		moptionsList = (ListView)findViewById(R.id.list_slidermenu3);
+		toolbar = (Toolbar)findViewById(R.id.toolbar);
+		txtTitle1 = (TextView)findViewById(R.id.txtTitle1);
+		txtTitle2 = (TextView)findViewById(R.id.txtTitle2);
 
-
-
+		setSupportActionBar(toolbar);
+		getSupportActionBar().setTitle("");
 
 		Intent in = getIntent();
 		SPHostUrl = in.getStringExtra("SPHostUrl");
@@ -222,22 +230,12 @@ public class Home extends Activity implements OnItemClickListener
 
 		 registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
 
+
 		int id = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
-        TextView txtTitle = (TextView) findViewById(id);
-        txtTitle.setGravity(Gravity.CENTER);
-        txtTitle.setTextSize(20);
-        txtTitle.setTypeface(null, Typeface.BOLD);
 
-        Display display = getWindowManager().getDefaultDisplay();
-        Point size = new Point();
-        display.getSize(size);
-        int width = size.x;
 
-        txtTitle.setWidth(width);
-      Typeface typaFace = Typeface.createFromAsset(getAssets(), "RobotoSlab-Bold.ttf");
-      txtTitle.setTypeface(typaFace);
 		mTitle = mDrawerTitle = getTitle();
-		getActionBar().setDisplayShowHomeEnabled(false);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
 
@@ -249,8 +247,6 @@ public class Home extends Activity implements OnItemClickListener
 		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
 
 		txtDrawerUserName.setText(fullName);
-		txtDrawerUserName.setTextColor(Color.WHITE);
-		txtDrawerUserName.setPadding(10, 10, 10, 10);
 
 
 		navDrawerItems = new ArrayList<NavDrawerItem>();
@@ -328,25 +324,26 @@ public class Home extends Activity implements OnItemClickListener
 
 
 		// enabling action bar app icon and behaving it as toggle button
-		getActionBar().setDisplayHomeAsUpEnabled(true);
-		getActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setHomeButtonEnabled(true);
+		getSupportActionBar().setDisplayShowTitleEnabled(false);
 
-		mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout,
-				R.drawable.hamburger_button, //nav menu toggle icon
-				R.string.app_name, // nav drawer open - description for accessibility
-				R.string.app_name // nav drawer close - description for accessibility
+		mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout,
+
+				R.string.drawer_open, // nav drawer open - description for accessibility
+				R.string.drawer_close // nav drawer close - description for accessibility
 				) {
 			public void onDrawerClosed(View view)
 			{
 
-				getActionBar().setTitle("Attini Comms");
+				getSupportActionBar().setTitle("Robeco World");
 				// calling onPrepareOptionsMenu() to show action bar icons
 
 				invalidateOptionsMenu();
 			}
 
 			public void onDrawerOpened(View drawerView) {
-				getActionBar().setTitle("Settings");
+				getSupportActionBar().setTitle("Settings");
 				// calling onPrepareOptionsMenu() to hide action bar icons
 				invalidateOptionsMenu();
 
@@ -446,114 +443,110 @@ public class Home extends Activity implements OnItemClickListener
 			try
 			{
 				response = httpClient.execute(request);
-				if(response.getStatusLine().getStatusCode()== 200)
+				switch (response.getStatusLine().getStatusCode())
 				{
-					HttpEntity entity = response.getEntity();
-					if (entity != null)
-					{
+					case 200:
+						HttpEntity entity = response.getEntity();
+						if (entity != null)
+						{
 
-						InputStream inputStream = entity.getContent();
-						myResponseBody = convertToString(inputStream);
+							InputStream inputStream = entity.getContent();
+							myResponseBody = convertToString(inputStream);
 
-						myNewsList.clear();
-						jObject = new JSONArray(myResponseBody);
-						for (int i = 0; i < jObject.length(); i++) {
-							JSONObject menuObject = jObject.getJSONObject(i);
+							myNewsList.clear();
+							jObject = new JSONArray(myResponseBody);
+							for (int i = 0; i < jObject.length(); i++) {
+								JSONObject menuObject = jObject.getJSONObject(i);
 
-							String title = menuObject.getString("Title");
-							String description = menuObject.getString("BodyText");
-							String thumbnail = menuObject.getString("ThumbnailPath");
-							String newsUrl = menuObject.getString("Url");
-							String body = menuObject.getString("Body");
-							String newsBigImage = menuObject.getString("ThumbnailPath");
-							String newsComments = menuObject.getString("NumberOfComments");
-							String newsViews = menuObject.getString("NumberOfViews");
-							String publishedDate = menuObject.getString("PublishedDate");
-							String articleGuid = menuObject.getString("ArticleGuid");
-							String newsSourceId = menuObject.getString("NewsSourceId");
-							String newsId = menuObject.getString("Id");
-							String publisherName = menuObject.getString("AuthorDisplayName");
-							String newsSourceTitle = menuObject.getString("NewsSourceTitle");
-							String newsLikes = menuObject.getString("NumberOfLikes");
-							String tags = menuObject.getString("EnterpriseKeywords");
-							try {
-								isLiked = menuObject.getString("IsLiked");
+								String title = menuObject.getString("Title");
+								String description = menuObject.getString("BodyText");
+								String thumbnail = menuObject.getString("ThumbnailPath");
+								String newsUrl = menuObject.getString("Url");
+								String body = menuObject.getString("Body");
+								String newsBigImage = menuObject.getString("ThumbnailPath");
+								String newsComments = menuObject.getString("NumberOfComments");
+								String newsViews = menuObject.getString("NumberOfViews");
+								String publishedDate = menuObject.getString("PublishedDate");
+								String articleGuid = menuObject.getString("ArticleGuid");
+								String newsSourceId = menuObject.getString("NewsSourceId");
+								String newsId = menuObject.getString("Id");
+								String publisherName = menuObject.getString("AuthorDisplayName");
+								String newsSourceTitle = menuObject.getString("NewsSourceTitle");
+								String newsLikes = menuObject.getString("NumberOfLikes");
+								String tags = menuObject.getString("EnterpriseKeywords");
+								try {
+									isLiked = menuObject.getString("IsLiked");
+								}
+								catch (Exception e)
+								{
+									isLiked = "Undefined";
+								}
+
+								myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags, isLiked));
+
+								myTitleList.add(newsSourceTitle);
 							}
-							catch (Exception e)
+							Map<String, String> idToColorMap = new HashMap<String, String>();
+							int colorIndex = 0;
+							for (int i=0;i<myNewsList.size();i++)
 							{
-								isLiked = "Undefined";
+								News currentNews = myNewsList.get(i);
+								if (myNewsList.size() > 0 && !idToColorMap.containsKey(currentNews.getNewsSourceId())) {
+
+									currentNews.setColor(colorPallete[colorIndex]);
+									idToColorMap.put(currentNews.getNewsSourceId(), colorPallete[colorIndex]);
+
+									for (int j = i + 1; j < myNewsList.size(); j++) {
+										if (myNewsList.get(j).getNewsSourceId().equals(currentNews.getNewsSourceId())) {
+											myNewsList.get(j).setColor(colorPallete[colorIndex]);
+										}
+									}
+
+									if (++colorIndex == colorPallete.length) {
+										colorIndex = 0;
+									}
+								} else {
+									myNewsList.get(0).setColor(colorPallete[0]);
+									idToColorMap.put(myNewsList.get(0).getNewsSourceId(), colorPallete[0]);
+								}
 							}
-
-							myNewsList.add(new News(title, description, thumbnail, newsUrl, body, newsBigImage, newsComments, newsViews, publishedDate, articleGuid, newsSourceId, newsId, publisherName, newsSourceTitle, newsLikes, tags, isLiked));
-
-                            myTitleList.add(newsSourceTitle);
 						}
-					}
-				}
-				else
-				{
-					DialogHelper.CreateNetworkAlert(Home.this, "Error", "Something went wrong");
+						break;
+					case 401:
+						myNewsList = Collections.EMPTY_LIST;
+						break;
 
 				}
 			}
 			catch(Exception e)
 			{
+				myNewsList = Collections.EMPTY_LIST;
 			}
-			/**/
-			/*int colorIndex = 0;
-			Map<String, String> idToColorMap = new HashMap<String, String>();
-			for (News news : myFinalNewsList) {
-				String key = news.getNewsSourceId();
-				if (idToColorMap.get(key) == null) {
-					news.setColor(colorPallete[colorIndex]);
-					idToColorMap.put(key, colorPallete[colorIndex]);
-				}
-
-			}*/
 
 
-			Map<String, String> idToColorMap = new HashMap<String, String>();
-			int colorIndex = 0;
-			for (int i=0;i<myNewsList.size();i++)
-			{
-				News currentNews = myNewsList.get(i);
-				if (myNewsList.size() > 0 && !idToColorMap.containsKey(currentNews.getNewsSourceId())) {
 
-					currentNews.setColor(colorPallete[colorIndex]);
-					idToColorMap.put(currentNews.getNewsSourceId(), colorPallete[colorIndex]);
 
-					for (int j = i + 1; j < myNewsList.size(); j++) {
-						if (myNewsList.get(j).getNewsSourceId().equals(currentNews.getNewsSourceId())) {
-							myNewsList.get(j).setColor(colorPallete[colorIndex]);
-						}
-					}
-
-					if (++colorIndex == colorPallete.length) {
-						colorIndex = 0;
-					}
-				} else {
-					myNewsList.get(0).setColor(colorPallete[0]);
-					idToColorMap.put(myNewsList.get(0).getNewsSourceId(), colorPallete[0]);
-				}
-			}
 			return myNewsList;
 		}
 
-
-
-
-
-		@Override
+	@Override
 		protected void onPostExecute(List<News> result)
 		{
 			// TODO Auto-generated method stub
 			super.onPostExecute(result);
-			if(refDialog!=null)
+			if(result.size() == 0 )
 			{
 				refDialog.dismiss();
-
+				DialogHelper.CreateLogoutAlert(Home.this,"","Unauthorized. Please login again.");
+			}
+			else
+			{
+				if(refDialog!=null) {
+					refDialog.dismiss();
+				}
 				Fragment mFragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),result);
 			}
+
 
 		}
 
@@ -636,7 +629,7 @@ public class Home extends Activity implements OnItemClickListener
 	 * Slide menu item click listener
 	 * */
 	private class SlideMenuClickListener implements
-	ListView.OnItemClickListener
+	OnItemClickListener
 	{
 
 		@Override
@@ -773,7 +766,7 @@ public class Home extends Activity implements OnItemClickListener
 	@Override
 	public void setTitle(CharSequence title)
 	{
-		mTitle = "Attini Comms";
+		mTitle = "Robeco World";
 		
 	}
 
@@ -870,17 +863,11 @@ public class Home extends Activity implements OnItemClickListener
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == 1000) {
 
-			if(resultCode == 0){
+			if(resultCode ==  RESULT_OK){
 
 				String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
 				new FetchItems().execute(registerContet);
 			}
-			else
-			{
-				DialogHelper.CreateNetworkAlert(this,"Error","Someting went wrong");
-			}
-
-
 		}
 
 	}

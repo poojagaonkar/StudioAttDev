@@ -178,15 +178,7 @@ public class AuthenticateDevice extends AsyncTask<String, Void, Integer>
 		AlertDialog.Builder alert = new AlertDialog.Builder(mActivity);
 		alert.setMessage("Redirecting to Login");
 		alert.setTitle("Credential Error");
-		/*if(dialog!=null && dialog.isShowing())
-		{
-		dialog.dismiss();
-		}
-		
-		if(progDia!=null&&progDia.isVisible())
-		{
-			progDia.dismiss();
-		}*/
+
 		switch (result)
 		{
 			case 0:

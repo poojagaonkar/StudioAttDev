@@ -92,7 +92,7 @@ public class LazyAdapter extends ArrayAdapter<String>
 	  {
 	        double ratio = sPositionHeightRatios.get(position, 0.0);
 	        // if not yet done generate and stash the columns height
-	        // in our real world scenario this will be determined by
+	        // in our real Comms scenario this will be determined by
 	        // some match based on the known height and width of the image
 	        // and maybe a helpful way to get the column height!
 	        if (ratio == 0) {

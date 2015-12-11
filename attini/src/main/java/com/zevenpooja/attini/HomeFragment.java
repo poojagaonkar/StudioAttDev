@@ -49,19 +49,18 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.origamilabs.library.views.StaggeredGridView;
 import com.zeven.attini.R;
 
 
 
 @SuppressLint("ValidFragment")
-public class HomeFragment extends Fragment implements  com.origamilabs.library.views.StaggeredGridView.OnItemClickListener, OnItemClickListener
+public class HomeFragment extends Fragment implements OnItemClickListener
 {
 
 	TextView txtUsersName;
 	private TextView txtTitle;
 	private TextView txtBody;
-	private com.etsy.android.grid.StaggeredGridView mGridView;
+
 	private ListView newsList;
 	private ImageView imgThumbnail;
 	String encodedAccountName,SPHostUrl,refreshToken, realm, usersname,deviceAuthKey, avatarUrl, fullName;
@@ -248,10 +247,6 @@ public class HomeFragment extends Fragment implements  com.origamilabs.library.v
 	}
 
 
-	@Override
-	public void onItemClick(StaggeredGridView parent, View view, int position, long id) {
-
-	}
 
 
 

@@ -24,7 +24,7 @@
       <TextView 
            android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-         android:text="Attini Comms"
+         android:text="@string/app_name"
          android:textColor="@color/White"
          android:id="@+id/txtNewsArticleMainTitle"
          android:textSize="20dp"
