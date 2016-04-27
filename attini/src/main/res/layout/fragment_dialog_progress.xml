@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="#2A98C0"
+    android:background="#2B9AC2"
     android:gravity="center">
 
     <ImageView
@@ -12,7 +12,7 @@
         android:layout_height="150dp"
         android:layout_centerInParent="true"
         android:scaleType="fitXY"
-        android:src="@drawable/attinicommslogo1"
+        android:src="@drawable/attinicommslogo"
         />
 
     <LinearLayout
