@@ -36,6 +36,7 @@ import Attini.Model.NavDrawerItem;
 import Attini.Model.NavDrawerListAdapter;
 import Utility.ArticleFilter;
 import Utility.CommentsComparator;
+import Utility.DateComparator;
 import Utility.DialogHelper;
 import Utility.ListViewInScrollViewHeight;
 import Utility.MyComparator;
@@ -176,7 +177,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 	public static List<News> companyNewsList = new ArrayList<News>();
 	public static ArrayList<String> catagoryArrayList = new ArrayList<String>();
 
-	public static String[] catagoryList = new String[] {"Most Liked", "Most Commented", "Most Viewed","", "About Us"};//,"Logout"};
+	public static String[] catagoryList = new String[] {"Most Recent","Most Liked", "Most Commented", "Most Viewed","", "About Us"};//,"Logout"};
 	public static String[] colorPallete = new String[] {"#1F1A17", "#62934D", "#F9B03F", "#7959BC", "#74B8DE", "#E65641", "#7CC8BB", "#D7CE5D", "#D6BE95", "#B694D1"};
 	private String NewsSourceTitle = null;
 	ProgressDialogFragment prog;
@@ -550,10 +551,6 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 		}
 
-
-
-
-
 		@Override
 		protected void onPreExecute()
 		{
@@ -798,28 +795,37 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 		Fragment fragment = null;
 		switch (position)
 		{
-		case 0:
+			case 0:
+				//Most Recent filter
+				Collections.sort(companyNewsList, new DateComparator());
+				fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
+
+				break;
+
+			case 1://Most Liked
 			
 			Collections.sort(companyNewsList, new MyComparator());
 			fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
 
 			break;
 
-		case 1:
+
+
+			case 2:
 			//Most commented filter
 			Collections.sort(companyNewsList, new CommentsComparator());
 			fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
 
 			break;
 
-		case 2:
+		case 3:
 			// Most Viewed Filter
 			Collections.sort(companyNewsList, new ViewsComparator());
 			fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
 
 			break;
 
-		case 3:
+		case 4:
 
 			final TextView message = new TextView(Home.this);
 			  

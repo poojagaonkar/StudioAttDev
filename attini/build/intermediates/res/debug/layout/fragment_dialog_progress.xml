@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" 
-    android:background="#0098B1"
+    android:background="#2A98C0"
     android:gravity="center">
 
     <ImageView
@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:text="Comms"
             android:textSize="18sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/white"/>
 
     </LinearLayout>
 

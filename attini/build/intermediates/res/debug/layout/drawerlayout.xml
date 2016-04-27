@@ -27,7 +27,7 @@
             android:text="Attini"
             app:fontName="OpenSans-Bold.ttf"
             android:textSize="20sp"
-            android:textColor="@android:color/black"/>
+            android:textColor="@android:color/white"/>
         <Utility.CustomFont
             android:id="@+id/txtTitle2"
             android:layout_width="wrap_content"

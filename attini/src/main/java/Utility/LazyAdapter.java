@@ -184,14 +184,7 @@ public class LazyAdapter extends ArrayAdapter<String>
 
 
         myColor = newsItem.getColor();
-       			/*if(myColor=="#7959BC")
-       			{
-       				myColor = "#62934D";
-       			}
-       			else if(myColor =="#62934D")
-       			{
-       				myColor="#7959BC";
-       			}*/
+
 
         viewHolder.viewDate.setBackgroundColor(Color.parseColor(myColor));
 
