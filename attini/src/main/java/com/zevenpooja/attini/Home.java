@@ -174,6 +174,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 	private String[] iconColors;
 	private String[] numberofLikesArray;
 	private TypedArray navMenuIcons;
+    private boolean isRefreshed;
 
 	private ArrayList<NavDrawerItem> navDrawerItems;
 	private NavDrawerListAdapter adapter;
@@ -232,167 +233,176 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 		fullName = usersname+" "+ lastName;
 
 
-
-		registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
-
-
-		int id = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+        CreateMenu();
 
 
-		mTitle = mDrawerTitle = getTitle();
-		getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-
-
-		// nav drawer icons from resources
-		navMenuIcons = getResources()
-				.obtainTypedArray(R.array.nav_drawer_icons);
-
-		mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-		mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
-
-		txtDrawerUserName.setText(fullName);
-
-
-		navDrawerItems = new ArrayList<NavDrawerItem>();
-
-		try
-		{
-
-
-			myFinalNewsList = new FetchItems().execute(registerContet).get();
-			//myFinalNewsList = new GetList().execute(items).get();
-
-			if(myFinalNewsList.size() == 0)
-			{
-				DialogHelper.CreateNetworkAlert(Home.this, "Error", "Something went wrong");
-
-			}
-
-
-			ArrayList<String> isonColors = new ArrayList<String>();
-			isonColors.add("#FFFFFF");
-			for(int j =0; j < myFinalNewsList.size(); j++)
-			{	String colorz = myFinalNewsList.get(j).getColor();
-				isonColors.add(colorz);
-
-			}
-
-            //Remove duplicate titles
-			LinkedHashSet<String> titleSet = new LinkedHashSet<>();
-			titleSet.addAll(myTitleList);
-			myTitleList.clear();
-			myTitleList.addAll(titleSet);
-
-            //Remove duplicate colors
-			LinkedHashSet<String> colorSet = new LinkedHashSet<>();
-			colorSet.addAll(isonColors);
-			isonColors.clear();
-			isonColors.addAll(colorSet);
-
-
-            //Add titles and corresponding colors to navigation menu.
-			for(int j =0 ;j <myTitleList.size() && j< isonColors.size();j++)
-			{
-
-				navDrawerItems.add(new NavDrawerItem(myTitleList.get(j), isonColors.get(j)));
-
-
-			}
-
-
-
-		}
-		catch (InterruptedException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		catch (ExecutionException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-
-
-
-		// Recycle the typed array
-		navMenuIcons.recycle();
-
-
-		// setting the nav drawer list adapter
-
-		adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
-		mDrawerList.setAdapter(adapter);
-
-		mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
-
-
-		// enabling action bar app icon and behaving it as toggle button
-		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-		getSupportActionBar().setHomeButtonEnabled(true);
-		getSupportActionBar().setDisplayShowTitleEnabled(false);
-
-		mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout,
-
-				R.string.drawer_open, // nav drawer open - description for accessibility
-				R.string.drawer_close // nav drawer close - description for accessibility
-		) {
-			public void onDrawerClosed(View view)
-			{
-
-				getSupportActionBar().setTitle("Robeco World");
-				// calling onPrepareOptionsMenu() to show action bar icons
-
-				invalidateOptionsMenu();
-			}
-
-			public void onDrawerOpened(View drawerView) {
-				getSupportActionBar().setTitle("Settings");
-				// calling onPrepareOptionsMenu() to hide action bar icons
-				invalidateOptionsMenu();
-
-			}
-		};
-		mDrawerLayout.setDrawerListener(mDrawerToggle);
-
-		if (savedInstanceState == null)
-		{
-			// on first time display view for first nav item
-
-			displayView(0);
-		}
-
-
-
-		//Second list
-
-		final View footerView =  ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logoutfooter, null, false);
-		mCatagoryList.addFooterView(footerView);
-		footerView.setOnClickListener(new View.OnClickListener()
-		{
-
-			@Override
-			public void onClick(View v)
-			{
-				// TODO Auto-generated method stub
-				// Logout
-				footerView.setBackgroundResource(R.drawable.list_selector1);
-				SessionManagement session = new SessionManagement(getApplicationContext());
-				session.logoutUser();
-				finish();
-
-			}
-		});
-
-		//ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this, R.layout.drawer_list_item_2, R.id.txtCatagories, catagoryList);
-		PainTitleAdapter adapter = new PainTitleAdapter(Home.this,catagoryList);
-		mCatagoryList.setAdapter(adapter);
-		mCatagoryList.setOnItemClickListener(this);
 
 
 	}
+
+    private void CreateMenu(){
+
+
+        registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
+
+
+        int id = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
+
+
+        mTitle = mDrawerTitle = getTitle();
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+
+        // nav drawer icons from resources
+        navMenuIcons = getResources()
+                .obtainTypedArray(R.array.nav_drawer_icons);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        mDrawerList = (ListView) findViewById(R.id.list_slidermenu);
+
+        txtDrawerUserName.setText(fullName);
+
+
+        navDrawerItems = new ArrayList<NavDrawerItem>();
+
+        try
+        {
+
+
+            myFinalNewsList = new FetchItems().execute(registerContet).get();
+            //myFinalNewsList = new GetList().execute(items).get();
+
+            if(myFinalNewsList.size() == 0)
+            {
+                DialogHelper.CreateNetworkAlert(Home.this, "Error", "Something went wrong");
+
+            }
+
+
+            ArrayList<String> isonColors = new ArrayList<String>();
+            isonColors.add("#FFFFFF");
+            for(int j =0; j < myFinalNewsList.size(); j++)
+            {	String colorz = myFinalNewsList.get(j).getColor();
+                isonColors.add(colorz);
+
+            }
+
+            //Remove duplicate titles
+            LinkedHashSet<String> titleSet = new LinkedHashSet<>();
+            titleSet.addAll(myTitleList);
+            myTitleList.clear();
+            myTitleList.addAll(titleSet);
+
+            //Remove duplicate colors
+            LinkedHashSet<String> colorSet = new LinkedHashSet<>();
+            colorSet.addAll(isonColors);
+            isonColors.clear();
+            isonColors.addAll(colorSet);
+
+
+            //Add titles and corresponding colors to navigation menu.
+            for(int j =0 ;j <myTitleList.size() && j< isonColors.size();j++)
+            {
+
+                navDrawerItems.add(new NavDrawerItem(myTitleList.get(j), isonColors.get(j)));
+
+
+            }
+
+
+
+        }
+        catch (InterruptedException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        catch (ExecutionException e)
+        {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+
+
+
+
+        // Recycle the typed array
+        navMenuIcons.recycle();
+
+
+        // setting the nav drawer list adapter
+
+        adapter = new NavDrawerListAdapter(getApplicationContext(), navDrawerItems);
+        mDrawerList.setAdapter(adapter);
+
+        mDrawerList.setOnItemClickListener(new SlideMenuClickListener());
+
+
+        // enabling action bar app icon and behaving it as toggle button
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+
+        mDrawerToggle = new android.support.v7.app.ActionBarDrawerToggle(this, mDrawerLayout,
+
+                R.string.drawer_open, // nav drawer open - description for accessibility
+                R.string.drawer_close // nav drawer close - description for accessibility
+        ) {
+            public void onDrawerClosed(View view)
+            {
+
+                getSupportActionBar().setTitle("Attini Comms");
+                // calling onPrepareOptionsMenu() to show action bar icons
+
+                invalidateOptionsMenu();
+            }
+
+            public void onDrawerOpened(View drawerView) {
+                getSupportActionBar().setTitle("Settings");
+                // calling onPrepareOptionsMenu() to hide action bar icons
+                invalidateOptionsMenu();
+
+            }
+        };
+        mDrawerLayout.setDrawerListener(mDrawerToggle);
+		displayView(0);
+        /*if (savedInstanceState == null)
+        {
+            // on first time display view for first nav item
+
+            displayView(0);
+        }*/
+
+
+
+        //Second list
+
+        final View footerView =  ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logoutfooter, null, false);
+        mCatagoryList.addFooterView(footerView);
+        footerView.setOnClickListener(new View.OnClickListener()
+        {
+
+            @Override
+            public void onClick(View v)
+            {
+                // TODO Auto-generated method stub
+                // Logout
+                footerView.setBackgroundResource(R.drawable.list_selector1);
+                SessionManagement session = new SessionManagement(getApplicationContext());
+                session.logoutUser();
+                finish();
+
+            }
+        });
+
+        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this, R.layout.drawer_list_item_2, R.id.txtCatagories, catagoryList);
+        PainTitleAdapter adapter = new PainTitleAdapter(Home.this,catagoryList);
+        mCatagoryList.setAdapter(adapter);
+        mCatagoryList.setOnItemClickListener(this);
+
+
+    }
 	public static List<News> getMyFinalNewsList() {
 		return myFinalNewsList;
 	}
@@ -655,8 +665,13 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 			case R.id.action_refresh:
 
-				String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
+				/*String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
 				new FetchItems().execute(registerContet);
+*/
+
+			    isRefreshed = true;
+                CreateMenu();
+
 
 				break;
 
