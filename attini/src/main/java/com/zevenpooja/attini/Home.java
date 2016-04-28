@@ -520,8 +520,13 @@ public class Home extends AppCompatActivity implements OnItemClickListener
                 mCatagoryList.setOnItemClickListener(Home.this);
                 ListViewInScrollViewHeight.setListViewHeightBasedOnChildren(mCatagoryList);
                 ListViewInScrollViewHeight.setListViewHeightBasedOnChildren(mDrawerList);
+
                 if(refDialog!=null) {
                     refDialog.dismiss();
+                }
+                else if(myprogressDialog !=null)
+                {
+                    myprogressDialog.dismiss();
                 }
                 Fragment mFragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),result);
             }
@@ -554,12 +559,23 @@ public class Home extends AppCompatActivity implements OnItemClickListener
             {
                 worked = true;
 
-                if (refDialog != null) {
-                    refDialog = null;
-                }
-                refDialog = WaitProgressFragment.newInstance();
+                if(isRefreshed == true) {
+                    if (refDialog != null) {
+                        refDialog = null;
+                    }
+                    refDialog = WaitProgressFragment.newInstance();
 
-                refDialog.show(getFragmentManager(), "Wait");
+                    refDialog.show(getFragmentManager(), "Wait");
+                }
+                else
+                {
+                    if (myprogressDialog != null) {
+                        myprogressDialog = null;
+                    }
+                    myprogressDialog = ProgressDialogFragment.newInstance();
+
+                    myprogressDialog.show(getFragmentManager(), "Wait");
+                }
 
             }
         }
