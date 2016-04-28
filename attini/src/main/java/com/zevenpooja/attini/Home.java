@@ -181,6 +181,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
     public static List<News> myFinalNewsList = new ArrayList<News>();
     public static List<News> companyNewsList = new ArrayList<News>();
     public static ArrayList<String> catagoryArrayList = new ArrayList<String>();
+    private View footerView;
 
     public static String[] catagoryList = new String[] {"Most Recent","Most Liked", "Most Commented", "Most Viewed","", "About Us"};//,"Logout"};
     public static String[] colorPallete = new String[] {"#1F1A17", "#62934D", "#F9B03F", "#7959BC", "#74B8DE", "#E65641", "#7CC8BB", "#D7CE5D", "#D6BE95", "#B694D1"};
@@ -496,23 +497,24 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
                 //Second list
 
-                final View footerView =  ((LayoutInflater)Home.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logoutfooter, null, false);
-                mCatagoryList.addFooterView(footerView);
-                footerView.setOnClickListener(new View.OnClickListener()
-                {
+                if(footerView == null) {
+                    footerView = ((LayoutInflater) Home.this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logoutfooter, null, false);
+                    mCatagoryList.addFooterView(footerView);
 
-                    @Override
-                    public void onClick(View v)
-                    {
-                        // TODO Auto-generated method stub
-                        // Logout
-                        footerView.setBackgroundResource(R.drawable.list_selector1);
-                        SessionManagement session = new SessionManagement(getApplicationContext());
-                        session.logoutUser();
-                        finish();
+                    footerView.setOnClickListener(new View.OnClickListener() {
 
-                    }
-                });
+                        @Override
+                        public void onClick(View v) {
+                            // TODO Auto-generated method stub
+                            // Logout
+                            footerView.setBackgroundResource(R.drawable.list_selector1);
+                            SessionManagement session = new SessionManagement(getApplicationContext());
+                            session.logoutUser();
+                            finish();
+
+                        }
+                    });
+                }
 
                 //ArrayAdapter<String> adapter = new ArrayAdapter<String>(Home.this, R.layout.drawer_list_item_2, R.id.txtCatagories, catagoryList);
                 PainTitleAdapter adapter = new PainTitleAdapter(Home.this,catagoryList);
