@@ -16,6 +16,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.concurrent.ExecutionException;
 
@@ -47,6 +48,9 @@ import Utility.SessionManagement;
 //import Utility.StorageHelper;
 import Utility.ViewsComparator;
 import Utility.WaitProgressFragment;
+import ch.lambdaj.Lambda;
+import ch.lambdaj.collection.LambdaCollections;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -184,7 +188,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 	private ProgressDialogFragment myprogressDialog;
 	private List<News> updatedList;
 	private boolean canContinue  = true;
-    ArrayList<String> myTitleList = new ArrayList<String>();
+	ArrayList<String> myTitleList = new ArrayList<String>();
 	private boolean isSelected =true;
 	private  String registerContet;
 	private Toolbar toolbar;
@@ -206,7 +210,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 		else
 
-		txtDrawerUserName = (TextView)findViewById(R.id.txtUserDrawer);
+			txtDrawerUserName = (TextView)findViewById(R.id.txtUserDrawer);
 		viewIconColor = (View)findViewById(R.id.viewIconColor);
 		mainLinearLayout = (ScrollView)findViewById(R.id.left_drawer);
 		mCatagoryList = (ListView)findViewById(R.id.list_slidermenu2);
@@ -229,7 +233,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 
 
-		 registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
+		registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
 
 
 		int id = Resources.getSystem().getIdentifier("action_bar_title", "id", "android");
@@ -267,30 +271,31 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 
 			ArrayList<String> isonColors = new ArrayList<String>();
-
+			isonColors.add("#FFFFFF");
 			for(int j =0; j < myFinalNewsList.size(); j++)
 			{	String colorz = myFinalNewsList.get(j).getColor();
 				isonColors.add(colorz);
 
 			}
 
+            //Remove duplicate titles
+			LinkedHashSet<String> titleSet = new LinkedHashSet<>();
+			titleSet.addAll(myTitleList);
+			myTitleList.clear();
+			myTitleList.addAll(titleSet);
+
+            //Remove duplicate colors
+			LinkedHashSet<String> colorSet = new LinkedHashSet<>();
+			colorSet.addAll(isonColors);
+			isonColors.clear();
+			isonColors.addAll(colorSet);
 
 
-			isonColors.add(0, "#FFFFFF");
-			iconColors = isonColors.toArray(new String[isonColors.size()]);
-			/*TreeSet<String>mySet = new TreeSet<String>(isonColors);
-			iconColors =  mySet.toArray(new String[mySet.size()]);
-			iconColors = addFirst(iconColors, "#FFFFFF");*/
-
-			navMenuTitles = myTitleList.toArray(new String[myTitleList.size()]);
-			//new GetNavDrawerItems().execute().get();
-
-			navMenuTitles = new HashSet<String>(Arrays.asList(navMenuTitles)).toArray(new String[0]);
-			navMenuTitles = addFirst(navMenuTitles, "All News");
-			for(int j =0 ;j <navMenuTitles.length && j<iconColors.length;j++)
+            //Add titles and corresponding colors to navigation menu.
+			for(int j =0 ;j <myTitleList.size() && j< isonColors.size();j++)
 			{
 
-				navDrawerItems.add(new NavDrawerItem(navMenuTitles[j], iconColors[j]));
+				navDrawerItems.add(new NavDrawerItem(myTitleList.get(j), isonColors.get(j)));
 
 
 			}
@@ -333,7 +338,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 				R.string.drawer_open, // nav drawer open - description for accessibility
 				R.string.drawer_close // nav drawer close - description for accessibility
-				) {
+		) {
 			public void onDrawerClosed(View view)
 			{
 
@@ -364,9 +369,9 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 		//Second list
 
 		final View footerView =  ((LayoutInflater)this.getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.logoutfooter, null, false);
-        mCatagoryList.addFooterView(footerView);
-        footerView.setOnClickListener(new View.OnClickListener()
-        {
+		mCatagoryList.addFooterView(footerView);
+		footerView.setOnClickListener(new View.OnClickListener()
+		{
 
 			@Override
 			public void onClick(View v)
@@ -456,6 +461,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 							myNewsList.clear();
 							jObject = new JSONArray(myResponseBody);
+							myTitleList.add("All News");
 							for (int i = 0; i < jObject.length(); i++) {
 								JSONObject menuObject = jObject.getJSONObject(i);
 
@@ -487,30 +493,18 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 								myTitleList.add(newsSourceTitle);
 							}
-							Map<String, String> idToColorMap = new HashMap<String, String>();
-							int colorIndex = 0;
-							for (int i=0;i<myNewsList.size();i++)
+                            //Assign a color from color pallete to each newsSourceId.
+							Map<String, String> colorHistory = new HashMap<String, String>();
+							int k = -1;
+							for (int i = 0; i < myNewsList.size(); i++)
 							{
-								News currentNews = myNewsList.get(i);
-								if (myNewsList.size() > 0 && !idToColorMap.containsKey(currentNews.getNewsSourceId())) {
-
-									currentNews.setColor(colorPallete[colorIndex]);
-									idToColorMap.put(currentNews.getNewsSourceId(), colorPallete[colorIndex]);
-
-									for (int j = i + 1; j < myNewsList.size(); j++) {
-										if (myNewsList.get(j).getNewsSourceId().equals(currentNews.getNewsSourceId())) {
-											myNewsList.get(j).setColor(colorPallete[colorIndex]);
-										}
-									}
-
-									if (++colorIndex == colorPallete.length) {
-										colorIndex = 0;
-									}
-								} else {
-									myNewsList.get(0).setColor(colorPallete[0]);
-									idToColorMap.put(myNewsList.get(0).getNewsSourceId(), colorPallete[0]);
+								if (!colorHistory.containsKey(myNewsList.get(i).getNewsSourceId()))
+								{
+									colorHistory.put(myNewsList.get(i).getNewsSourceId(),colorPallete[++k % colorPallete.length]);
 								}
+								myNewsList.get(i).setColor(colorHistory.get(myNewsList.get(i).getNewsSourceId()));
 							}
+
 						}
 						break;
 					case 401:
@@ -530,7 +524,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 			return myNewsList;
 		}
 
-	@Override
+		@Override
 		protected void onPostExecute(List<News> result)
 		{
 			// TODO Auto-generated method stub
@@ -561,27 +555,27 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 			if(cd.isConnectingToInternet()== false)
 			{
 				new AlertDialog.Builder(Home.this)
-			    .setTitle("Network error")
-			    .setMessage("Please check your internet connection")
-			    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-			        public void onClick(DialogInterface dialog, int which)
-			        {
-			        	worked = false;
-			            finish();
-			        }
-			     })
-			    .show();
+						.setTitle("Network error")
+						.setMessage("Please check your internet connection")
+						.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog, int which)
+							{
+								worked = false;
+								finish();
+							}
+						})
+						.show();
 			}
 			else
 			{
 				worked = true;
-			if(refDialog!=null)
-			{
-				refDialog =null;
-			}
-			refDialog =  WaitProgressFragment.newInstance();
+				if(refDialog!=null)
+				{
+					refDialog =null;
+				}
+				refDialog =  WaitProgressFragment.newInstance();
 
-			refDialog.show(getFragmentManager(), "Wait");
+				refDialog.show(getFragmentManager(), "Wait");
 			}
 		}
 
@@ -626,12 +620,12 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 	 * Slide menu item click listener
 	 * */
 	private class SlideMenuClickListener implements
-	OnItemClickListener
+			OnItemClickListener
 	{
 
 		@Override
 		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id)
+								long id)
 		{
 			// display view for selected nav drawer item
 			view.setSelected(true);
@@ -640,7 +634,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 		}
 	}
 
-		@Override
+	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
@@ -659,26 +653,16 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 		switch (item.getItemId())
 		{
 
-		case R.id.action_refresh:
+			case R.id.action_refresh:
 
-            String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
-			new FetchItems().execute(registerContet);
-			/*try {
+				String registerContet = EndPoints.FetchNewsItemsUrl + "spHostUrl="+SPHostUrl + "&encodedAccountName="+encodedAccountName+"&deviceAuthKey="+ deviceAuthKey+"&count=50";
 				new FetchItems().execute(registerContet);
-				//myFinalNewsList = new GetList().execute(items).get();
 
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
-				e.printStackTrace();
-			}*/
+				break;
 
 
-			break;
-
-
-		default:
-			return super.onOptionsItemSelected(item);
+			default:
+				return super.onOptionsItemSelected(item);
 		}
 		return  true;
 	}
@@ -697,9 +681,9 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 	/**
 	 * Diplaying fragment view for selected nav drawer list item
-	 * @param myPosition 
+	 * @param myPosition
 	 * */
-	private void displayView(int position) 
+	private void displayView(int position)
 	{
 
 		Fragment fragment = null;
@@ -755,7 +739,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 		return newone;
 	}
 	public static <T> T[] copy(T[] from, T[] to, int fromPos, int toPos,
-			int length) {
+							   int length) {
 		System.arraycopy(from, fromPos, to, toPos, length);
 		return to;
 	}
@@ -763,8 +747,8 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 	@Override
 	public void setTitle(CharSequence title)
 	{
-		mTitle = "Robeco World";
-		
+		mTitle = "Attini Comms";
+
 	}
 
 	/**
@@ -788,7 +772,7 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 
 	//Filters
 	@Override
-	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3) 
+	public void onItemClick(AdapterView<?> arg0, View arg1, int position, long arg3)
 	{
 		//companyNewsList = myFinalNewsList;
 		// TODO Auto-generated method stub
@@ -803,55 +787,55 @@ public class Home extends AppCompatActivity implements OnItemClickListener
 				break;
 
 			case 1://Most Liked
-			
-			Collections.sort(companyNewsList, new MyComparator());
-			fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
 
-			break;
+				Collections.sort(companyNewsList, new MyComparator());
+				fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
+
+				break;
 
 
 
 			case 2:
-			//Most commented filter
-			Collections.sort(companyNewsList, new CommentsComparator());
-			fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
+				//Most commented filter
+				Collections.sort(companyNewsList, new CommentsComparator());
+				fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
 
-			break;
+				break;
 
-		case 3:
-			// Most Viewed Filter
-			Collections.sort(companyNewsList, new ViewsComparator());
-			fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
+			case 3:
+				// Most Viewed Filter
+				Collections.sort(companyNewsList, new ViewsComparator());
+				fragment = new HomeFragment(SPHostUrl,encodedAccountName,deviceAuthKey,usersname,avatarUrl, fullName,getApplicationContext(),companyNewsList);
 
-			break;
+				break;
 
-		case 4:
+			case 4:
 
-			final TextView message = new TextView(Home.this);
-			  
-			  final SpannableString s = new SpannableString("To find out more about Attini Comms, and the people behind it, please check out our site at, http://attini.com");
-			  Linkify.addLinks(s, Linkify.WEB_URLS);
-			  message.setText(s);
-			  message.setMovementMethod(LinkMovementMethod.getInstance());
-			  message.setPadding(12, 12, 12, 12);
+				final TextView message = new TextView(Home.this);
 
-			  	new AlertDialog.Builder(Home.this)
-			   .setTitle("About Us")
-			   .setCancelable(true)
-			   .setIcon(android.R.drawable.ic_dialog_info)
-			   .setPositiveButton("Ok", null)
-			   .setView(message)
-			   .show();
-			  	
+				final SpannableString s = new SpannableString("To find out more about Attini Comms, and the people behind it, please check out our site at, http://attini.com");
+				Linkify.addLinks(s, Linkify.WEB_URLS);
+				message.setText(s);
+				message.setMovementMethod(LinkMovementMethod.getInstance());
+				message.setPadding(12, 12, 12, 12);
 
-			break;
+				new AlertDialog.Builder(Home.this)
+						.setTitle("About Us")
+						.setCancelable(true)
+						.setIcon(android.R.drawable.ic_dialog_info)
+						.setPositiveButton("Ok", null)
+						.setView(message)
+						.show();
+
+
+				break;
 		}
 
 
 		if (fragment != null) {
 			FragmentManager fragmentManager = getFragmentManager();
 			fragmentManager.beginTransaction()
-			.replace(R.id.frame_container, fragment).commit();
+					.replace(R.id.frame_container, fragment).commit();
 
 			// update selected item and title, then close the drawer
 			mCatagoryList.setItemChecked(position, true);
